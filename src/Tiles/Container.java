@@ -37,6 +37,7 @@ public class Container extends JPanel {
             //this.add(new Tree(100,100));
             this.removeAll();
 
+            
             try {
                 //this.add((Tile)content.newInstance("",100,100));
                 this.add((Tile)newContent.newInstance());
