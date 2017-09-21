@@ -77,13 +77,19 @@ public class testFormR01 {
         //ts.add(new Tiles.Container(new Tiles.Water(100,100), ml));
         //ts.add(new Tiles.Container(new Tiles.Wall(100,100), ml));
         ts.setLayout(new FlowLayout());
-        Tiles.Container buf1 = new Tiles.Container(Tiles.Tree.class, ml);
+        Tiles.Container buf1 = new Tiles.Container(new Tiles.Tree(), ml, false);
+        buf1.addMouseListener(ml);
+        buf1.setTransferHandler(new TransferHandler("content"));
         buf1.setPreferredSize(new Dimension(100, 100));
         ts.add(buf1);
-        Tiles.Container buf2 = new Tiles.Container(Tiles.Water.class, ml);
+        Tiles.Container buf2 = new Tiles.Container(new Tiles.Water(), ml, false);
+        buf2.addMouseListener(ml);
+        buf2.setTransferHandler(new TransferHandler("content"));
         buf2.setPreferredSize(new Dimension(100, 100));
         ts.add(buf2);
-        Tiles.Container buf3 = new Tiles.Container(Tiles.Wall.class, ml);
+        Tiles.Container buf3 = new Tiles.Container(new Tiles.Wall(), ml, false);
+        buf3.addMouseListener(ml);
+        buf3.setTransferHandler(new TransferHandler("content"));
         buf3.setPreferredSize(new Dimension(100, 100));
 
         ts.add(buf3);
