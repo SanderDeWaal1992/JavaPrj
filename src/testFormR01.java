@@ -1,5 +1,9 @@
+import util.GridCoords;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -18,7 +22,7 @@ public class testFormR01 {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
-        //new TestShape();
+        //new ObjectGrid();
     }
 
     public static void main(String[] args){
@@ -33,6 +37,8 @@ public class testFormR01 {
                 JComponent jc = (JComponent)e.getSource();
                 TransferHandler th = jc.getTransferHandler();
                 th.exportAsDrag(jc, e, TransferHandler.COPY);
+                //Tiles.Tile b=((Tiles.Container)jc).getContent();
+
             }
 
             @Override
@@ -51,8 +57,8 @@ public class testFormR01 {
         System.out.println("It works2");
         System.out.println("It works3");
 
-        //new TestShape(frame.getGraphics());
-        //frame.setContentPane(new TestShape(400,400, 4, 5,5));
+        //new ObjectGrid(frame.getGraphics());
+        //frame.setContentPane(new ObjectGrid(400,400, 4, 5,5));
 
 
         /*//ImageIcon icon = createImageIcon("images/Cat.gif");
@@ -77,22 +83,34 @@ public class testFormR01 {
         //ts.add(new Tiles.Container(new Tiles.Water(100,100), ml));
         //ts.add(new Tiles.Container(new Tiles.Wall(100,100), ml));
         ts.setLayout(new FlowLayout());
-        Tiles.Container buf1 = new Tiles.Container(new Tiles.Tree(), ml, false);
+        Tiles.Container buf0 = new Tiles.Container(Tiles.Pavement.class, false);
+        buf0.addMouseListener(ml);
+        buf0.setTransferHandler(new TransferHandler("content"));
+        buf0.setPreferredSize(new Dimension(100, 100));
+        ts.add(buf0);
+        Tiles.Container buf4 = new Tiles.Container(Tiles.Player.class, false);
+        buf4.addMouseListener(ml);
+        buf4.setTransferHandler(new TransferHandler("content"));
+        buf4.setPreferredSize(new Dimension(100, 100));
+        ts.add(buf4);
+        Tiles.Container buf1 = new Tiles.Container(Tiles.Tree.class, false);
         buf1.addMouseListener(ml);
         buf1.setTransferHandler(new TransferHandler("content"));
         buf1.setPreferredSize(new Dimension(100, 100));
         ts.add(buf1);
-        Tiles.Container buf2 = new Tiles.Container(new Tiles.Water(), ml, false);
+        Tiles.Container buf2 = new Tiles.Container(Tiles.Water.class, false);
         buf2.addMouseListener(ml);
         buf2.setTransferHandler(new TransferHandler("content"));
         buf2.setPreferredSize(new Dimension(100, 100));
         ts.add(buf2);
-        Tiles.Container buf3 = new Tiles.Container(new Tiles.Wall(), ml, false);
+        Tiles.Container buf3 = new Tiles.Container(Tiles.Wall.class, false);
         buf3.addMouseListener(ml);
         buf3.setTransferHandler(new TransferHandler("content"));
         buf3.setPreferredSize(new Dimension(100, 100));
-
         ts.add(buf3);
+
+
+
         //ts.add(new Tiles.Container(Tiles.Water.class, ml));
         //ts.add(new Tiles.Container(Tiles.Wall.class, ml));
         ts.revalidate();
@@ -104,7 +122,7 @@ public class testFormR01 {
         splitPane.setOneTouchExpandable(true);
         splitPane.setContinuousLayout(true);
 
-        TestShape ts2= new TestShape(400,400, 4, 5,5, ml);
+        ObjectGrid ts2= new ObjectGrid(400,400, 4, 5,5, ml);
         ts2.setMinimumSize(new Dimension(400, 400));
         ts2.setPreferredSize(new Dimension(400, 400));
 
@@ -148,5 +166,24 @@ public class testFormR01 {
         frame.setLocation(1930,10);
         frame.setContentPane(splitPane);
         //frame.add(createControlPanel(), BorderLayout.PAGE_END);
+
+
+        frame.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN )
+                    ts2.HandleKey(e);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
     }
 }

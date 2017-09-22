@@ -36,8 +36,8 @@ public class GridCoords {
     @Override
     public boolean equals(Object o)
     {
-
-        return this.point.equals(o);
+        if(! (o instanceof GridCoords)) return false;
+        return this.point.x==((GridCoords)o).point.x && this.point.y==((GridCoords)o).point.y;
     }
 
 }

@@ -3,8 +3,8 @@ package Tiles;
 public class Tree extends Tile {
     //private String toolTipString = "This is a tree.";
     private int sizeH, sizeV;
-    public Tree(){
-        super("./src/media/tree2.jpg");
+    public Tree(int width, int height){
+        super("./src/media/tree2.jpg", width, height);
 
         this.setToolTipString("This is a tree.");
 

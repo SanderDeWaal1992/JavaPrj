@@ -9,8 +9,8 @@ public class MovableTile extends Tile {
         Left, Up, Right, Down,
     }
     Directions direction = Directions.Down;
-    public MovableTile(String imgLoc){
-        super(imgLoc+"down.jpg");
+    public MovableTile(String imgLoc, int width, int height){
+        super(imgLoc+"down.png", width, height);
         this.imgLoc = imgLoc;
     }
     public void setText(String text){
@@ -21,23 +21,26 @@ public class MovableTile extends Tile {
     }
     public void setDirection(Directions direction){
         this.direction = direction;
+        this.setImage(imageLoc());
+        this.revalidate();
+        this.repaint();
     }
     private String imageLoc(){
         String bLoc;
         switch(direction){
             case Up:
-                bLoc= imgLoc+"up.jpg";
+                bLoc= imgLoc+"up.png";
             break;
             case Left:
-                bLoc= imgLoc+"left.jpg";
+                bLoc= imgLoc+"left.png";
 
             break;
             case Right:
-                bLoc= imgLoc+"right.jpg";
+                bLoc= imgLoc+"right.png";
 
             break;
             default: case Down:
-                bLoc= imgLoc+"down.jpg";
+                bLoc= imgLoc+"down.png";
             break;
         }
         return bLoc;

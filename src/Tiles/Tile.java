@@ -18,13 +18,19 @@ public abstract class Tile extends JLabel {
     private String toolTipString = "";
     private int index = 0;
 
-    public Tile (String _imgLoc){
+    public Tile (String _imgLoc, int width, int height){
         super();
         imgLoc = _imgLoc;
+        //this.setPreferredSize(new Dimension(width, height));
+    }
+    public void setSize(int width, int height){
+        this.setPreferredSize(new Dimension(width, height));
+        this.setMinimumSize(new Dimension(width, height));
+        this.setMaximumSize(new Dimension(width, height));
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(this.getWidth()!=0 && this.getIcon()==null)
+        if(this.getWidth()!=0/* && this.getIcon()==null*/)
             this.setIcon(new ImageIcon(getImage(imgLoc, this.getWidth(), this.getHeight())));
     }
     public static BufferedImage resize(BufferedImage img, int newW, int newH) {
@@ -50,12 +56,18 @@ public abstract class Tile extends JLabel {
 
     public void setToolTipString(String newToolTipString) {
         toolTipString = newToolTipString;
-        //this.setToolTipText(newToolTipString);
+        this.setToolTipText(newToolTipString);
     }
     public String getToolTipString() {
         return toolTipString;
     }
-    private void setIndex(int index){
+    protected void setIndex(int index){
         this.index=index;
+    }
+    public int getIndex(){
+        return this.index;
+    }
+    public void setImage(String _imgLoc){
+        imgLoc = _imgLoc;
     }
 }

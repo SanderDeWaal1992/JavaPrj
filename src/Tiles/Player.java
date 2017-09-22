@@ -1,8 +1,8 @@
 package Tiles;
 
 public class Player extends MovableTile{
-
-    Player(){
-        super("./src/media/player/");
+    Player(int width, int height){
+        super("./src/media/player/", width, height);
+        this.setIndex(1);
     }
 }
