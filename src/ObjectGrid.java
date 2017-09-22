@@ -19,7 +19,7 @@ public class TestShape extends JPanel {
         Tiles.Container playerContainer = null;
         for (Map.Entry<GridCoords, Tiles.Container> me : objectMap.entrySet()) {
             //Tiles.Container b = (Tiles.Container) me.getValue();
-            if (me.getValue().getContent(1) instanceof Tiles.Player) {
+            if (me.getValue().getContentObject(1) instanceof Tiles.Player) {
                 playerContainer = me.getValue();
             }
             //System.out.println(e.getKey() + ": " + e.getValue());
@@ -40,7 +40,7 @@ public class TestShape extends JPanel {
         tileHeight=(height- lineWidth) / devideY;
 
 
-        MouseListener ml = new MouseListener() {
+        /*MouseListener ml = new MouseListener() {
 
             @Override
             public void mouseClicked(MouseEvent e) {}
@@ -61,7 +61,7 @@ public class TestShape extends JPanel {
 
             @Override
             public void mouseExited(MouseEvent e) {}
-        };
+        };*/
 
         this.removeAll();
         for(int i=0;i<devideX;i++) {
@@ -70,7 +70,7 @@ public class TestShape extends JPanel {
                 Tile.setLocationInGrid(i,y);
 
                 Tile.addMouseListener(mouseListener);
-                Tile.addMouseListener(ml);
+                //Tile.addMouseListener(ml);
                 Tile.setTransferHandler(new TransferHandler("content"));
                 //Tile.setPreferredSize(new Dimension(tileWidth, tileHeight));
                 Tile.setSize(tileWidth,tileHeight);
@@ -81,69 +81,66 @@ public class TestShape extends JPanel {
             }
         }
 
-        this.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
+       this.addKeyListener(new KeyListener() {
+           @Override
+           public void keyTyped(KeyEvent e) {
 
-            }
+           }
 
-            @Override
-            public void keyPressed(KeyEvent e) {
+           @Override
+           public void keyPressed(KeyEvent e) {
 
-            }
+           }
 
-            @Override
-            public void keyReleased(KeyEvent e) {
-                Tiles.Container playerContainer;
-                GridCoords nextGridCoords = new GridCoords(0,0), currentGridCoords;
-                if((playerContainer = getPlayerContainer())==null)
-                    return;
+           @Override
+           public void keyReleased(KeyEvent e) {
+               Tiles.Container playerContainer;
+               GridCoords nextGridCoords = new GridCoords(0,0), currentGridCoords;
+               if((playerContainer = getPlayerContainer())==null)
+                   return;
 
-                /*for (Component c : TestShape.this.getComponents()) {
-                    if (c instanceof Tiles.Player) {
-                        player = (Tiles.Player)c;
-                    }
-                }*/
+               /*for (Component c : TestShape.this.getComponents()) {
+                   if (c instanceof Tiles.Player) {
+                       player = (Tiles.Player)c;
+                   }
+               }*/
 
-                else {
-                    currentGridCoords = playerContainer.getLocationInGrid();
-                    switch (e.getKeyCode()) {
-                        case KeyEvent.VK_LEFT:
-                            nextGridCoords.setY(currentGridCoords.getY());
-                            if((nextGridCoords.setX(currentGridCoords.getX() - 1))<0)
-                                nextGridCoords.setX(0);
-                            break;
-                        case KeyEvent.VK_RIGHT:
-                            nextGridCoords.setY(currentGridCoords.getY());
-                            if((nextGridCoords.setX(currentGridCoords.getX() + 1))>devideX)
-                                nextGridCoords.setX(devideX);
-                            break;
-                        case KeyEvent.VK_UP:
-                            nextGridCoords.setX(currentGridCoords.getX());
-                            if((nextGridCoords.setY(currentGridCoords.getY() - 1))<0)
-                                nextGridCoords.setY(0);
-                            break;
-                        case KeyEvent.VK_DOWN:
-                            nextGridCoords.setX(currentGridCoords.getX());
-                            if((nextGridCoords.setY(currentGridCoords.getY() + 1))>devideY)
-                                nextGridCoords.setY(devideY);
-                            break;
-                        default:
-                            System.out.println("unknown key");
-                            break;
-                    }
-                    Tiles.Container bTile = objectMap.get(nextGridCoords);
-                    if(bTile.getContent(0).getCollisable() == true)
-                        nextGridCoords=currentGridCoords;
-                    Tiles.Tile bPlayerTile = playerContainer.getContent(1);
-                    if(bPlayerTile instanceof Tiles.Player)
-                        bTile.setContent(bPlayerTile,1);
-
-
-
-                }
-            }
-        });
+               else {
+                   currentGridCoords = playerContainer.getLocationInGrid();
+                   switch (e.getKeyCode()) {
+                       case KeyEvent.VK_LEFT:
+                           nextGridCoords.setY(currentGridCoords.getY());
+                           if((nextGridCoords.setX(currentGridCoords.getX() - 1))<0)
+                               nextGridCoords.setX(0);
+                           break;
+                       case KeyEvent.VK_RIGHT:
+                           nextGridCoords.setY(currentGridCoords.getY());
+                           if((nextGridCoords.setX(currentGridCoords.getX() + 1))>devideX)
+                               nextGridCoords.setX(devideX);
+                           break;
+                       case KeyEvent.VK_UP:
+                           nextGridCoords.setX(currentGridCoords.getX());
+                           if((nextGridCoords.setY(currentGridCoords.getY() - 1))<0)
+                               nextGridCoords.setY(0);
+                           break;
+                       case KeyEvent.VK_DOWN:
+                           nextGridCoords.setX(currentGridCoords.getX());
+                           if((nextGridCoords.setY(currentGridCoords.getY() + 1))>devideY)
+                               nextGridCoords.setY(devideY);
+                           break;
+                       default:
+                           System.out.println("unknown key");
+                           break;
+                   }
+                   Tiles.Container bTile = objectMap.get(nextGridCoords);
+                   if(bTile.getContentObject(0).getCollisable() == true)
+                       nextGridCoords=currentGridCoords;
+                   Tiles.Tile bPlayerTile = playerContainer.getContentObject(1);
+                   if(bPlayerTile instanceof Tiles.Player)
+                       bTile.setObject(bPlayerTile, bPlayerTile.getIndex());
+               }
+           }
+       });
 
         this.revalidate();
         this.repaint();
