@@ -1,3 +1,4 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import util.GridCoords;
 
 import javax.swing.*;
@@ -6,6 +7,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class testFormR01 {
@@ -14,10 +18,7 @@ public class testFormR01 {
     private JPanel panel1;
     public testFormR01(){
         super();
-
-
         System.out.println("It works4");
-
     }
 
     private void createUIComponents() {
@@ -26,30 +27,8 @@ public class testFormR01 {
     }
 
     public static void main(String[] args){
+        util.CustomMouseListener ml = new util.CustomMouseListener();
 
-        MouseListener ml = new MouseListener() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {}
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                JComponent jc = (JComponent)e.getSource();
-                TransferHandler th = jc.getTransferHandler();
-                th.exportAsDrag(jc, e, TransferHandler.COPY);
-                //Tiles.Tile b=((Tiles.Container)jc).getContent();
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {}
-
-            @Override
-            public void mouseEntered(MouseEvent e) {}
-
-            @Override
-            public void mouseExited(MouseEvent e) {}
-        };
 
         JSplitPane splitPane;
 
@@ -77,36 +56,37 @@ public class testFormR01 {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         JPanel ts= new JPanel();
-        ts.setMinimumSize(new Dimension(200, 1200));
-        ts.setPreferredSize(new Dimension(200, 1200));
+        //ts.setMinimumSize(new Dimension(200, 1200));
+        //ts.setPreferredSize(new Dimension(200, 1200));
         //ts.add(new Tiles.Container(new Tiles.Tree(100,100), ml));
         //ts.add(new Tiles.Container(new Tiles.Water(100,100), ml));
         //ts.add(new Tiles.Container(new Tiles.Wall(100,100), ml));
-        ts.setLayout(new FlowLayout());
+        ts.setLayout(new GridLayout(3,4));
         Tiles.Container buf0 = new Tiles.Container(Tiles.Pavement.class, false);
         buf0.addMouseListener(ml);
         buf0.setTransferHandler(new TransferHandler("content"));
-        buf0.setPreferredSize(new Dimension(100, 100));
         ts.add(buf0);
+        buf0.setSize();
+
         Tiles.Container buf4 = new Tiles.Container(Tiles.Player.class, false);
         buf4.addMouseListener(ml);
         buf4.setTransferHandler(new TransferHandler("content"));
-        buf4.setPreferredSize(new Dimension(100, 100));
+        //buf4.setPreferredSize(new Dimension(100, 100));
         ts.add(buf4);
         Tiles.Container buf1 = new Tiles.Container(Tiles.Tree.class, false);
         buf1.addMouseListener(ml);
         buf1.setTransferHandler(new TransferHandler("content"));
-        buf1.setPreferredSize(new Dimension(100, 100));
+        //buf1.setPreferredSize(new Dimension(100, 100));
         ts.add(buf1);
         Tiles.Container buf2 = new Tiles.Container(Tiles.Water.class, false);
         buf2.addMouseListener(ml);
         buf2.setTransferHandler(new TransferHandler("content"));
-        buf2.setPreferredSize(new Dimension(100, 100));
+        //buf2.setPreferredSize(new Dimension(100, 100));
         ts.add(buf2);
         Tiles.Container buf3 = new Tiles.Container(Tiles.Wall.class, false);
         buf3.addMouseListener(ml);
         buf3.setTransferHandler(new TransferHandler("content"));
-        buf3.setPreferredSize(new Dimension(100, 100));
+        //buf3.setPreferredSize(new Dimension(100, 100));
         ts.add(buf3);
 
 
@@ -122,7 +102,7 @@ public class testFormR01 {
         splitPane.setOneTouchExpandable(true);
         splitPane.setContinuousLayout(true);
 
-        ObjectGrid ts2= new ObjectGrid(400,400, 4, 5,5, ml);
+        ObjectGrid ts2= new ObjectGrid(400,400, 0, 10,10, ml);
         ts2.setMinimumSize(new Dimension(400, 400));
         ts2.setPreferredSize(new Dimension(400, 400));
 
@@ -176,8 +156,24 @@ public class testFormR01 {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN )
+                final Set<Integer> keyArray = new HashSet<Integer>(Arrays.asList(
+                new Integer[]{
+                        KeyEvent.VK_LEFT,
+                        KeyEvent.VK_RIGHT,
+                        KeyEvent.VK_UP,
+                        KeyEvent.VK_DOWN,
+                        KeyEvent.VK_W,
+                        KeyEvent.VK_A,
+                        KeyEvent.VK_S,
+                        KeyEvent.VK_D
+                }
+                ));
+                //if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN )
+                if(keyArray.contains(e.getKeyCode())){
+                    scrollPane.setVisible(false);
+                    ml.setEnable(false);
                     ts2.HandleKey(e);
+                }
             }
 
             @Override
