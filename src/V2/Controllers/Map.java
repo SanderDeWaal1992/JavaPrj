@@ -59,7 +59,7 @@ public final class Map {
                 if(mapModel.getPlayerTile().getCollidableAtPos(RelPlayerCoord) == true) {
                     bPlayerNextCoord.setX(PlayerNextCoord.getX()+x);
                     bPlayerNextCoord.setY(PlayerNextCoord.getY()+y);
-                    for (V2.Models.Tiles.Tile tile : mapModel.getColidableTiles(bPlayerNextCoord)) {
+                    for (V2.Models.Tiles.Tile.TilePart tilePart : mapModel.getColidableTiles(bPlayerNextCoord)) {
                         colide = true;
                         //possible to check and execute colide action :TODO add colide actions eg talk, set door open, etc
                         break;

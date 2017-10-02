@@ -1,6 +1,7 @@
 package V2.Models;
 
 import V2.Models.Tiles.Tile;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import util.GridCoords;
 //import V2.Models;
 
@@ -11,7 +12,12 @@ import java.util.List;
 public class Map {
     //List<Integer> num = new ArrayList<>();
     //private java.util.Map<GridCoords, List<Tile>> tileList = new HashMap<GridCoords, List<Tile>>();
-    private java.util.Map<GridCoords, java.util.Map<Tile.Index, Tile>> tileList = new HashMap<GridCoords,  java.util.Map<Tile.Index, Tile>>();
+
+
+
+    //private java.util.Map<GridCoords, java.util.Map<Tile.Index, Tile>> tileList = new HashMap<GridCoords,  java.util.Map<Tile.Index, Tile>>();
+    private java.util.Map<GridCoords, List<Tile.TilePart>> tileList = new HashMap<GridCoords,  List<Tile.TilePart>>();
+
     private GridCoords playerCoord;
     private V2.Models.Tiles.Tile playerTile;
     private int rowCnt=0;
@@ -26,15 +32,24 @@ public class Map {
      * @param gridCoords
      * @return Tiles which are colidable at given gridCoords
      */
-    public List<V2.Models.Tiles.Tile> getColidableTiles(GridCoords gridCoords){
-        GridCoords bAbsCoord = new GridCoords(0,0);
-        GridCoords bRelCoord = new GridCoords(0,0);
-        List<V2.Models.Tiles.Tile> bTiles = new ArrayList<V2.Models.Tiles.Tile>();
-        int cnt = 0;
+    public List<V2.Models.Tiles.Tile.TilePart> getColidableTiles(GridCoords gridCoords){
+        //GridCoords bAbsCoord = new GridCoords(0,0);
+        //GridCoords bRelCoord = new GridCoords(0,0);
+        List<V2.Models.Tiles.Tile.TilePart> bTileParts = new ArrayList<V2.Models.Tiles.Tile.TilePart>();
+
+        for (V2.Models.Tiles.Tile.TilePart tilePart:getFromTileList(gridCoords)) {
+            //bRelCoord.setX(bAbsCoord.getX()-gridCoords.getX());
+            //bRelCoord.setY(bAbsCoord.getY()-gridCoords.getY());
+            if(tilePart.getCollidable() == true) {
+                bTileParts.add(tilePart);
+            }
+        }
+
+        /*int cnt = 0;
         for(bAbsCoord.setX(0); bAbsCoord.getX()<rowCnt;bAbsCoord.setX(bAbsCoord.getX()+1)) {
             for(bAbsCoord.setY(0); bAbsCoord.getY()<columnCnt;bAbsCoord.setY(bAbsCoord.getY()+1)) {
 
-                for (V2.Models.Tiles.Tile tile:getFromTileList(bAbsCoord).values()) {
+                for (V2.Models.Tiles.Tile tile:getFromTileList(bAbsCoord)) {
                     bRelCoord.setX(bAbsCoord.getX()-gridCoords.getX());
                     bRelCoord.setY(bAbsCoord.getY()-gridCoords.getY());
                     if(tile.getCollidableAtPos(bRelCoord) == true) {
@@ -42,8 +57,8 @@ public class Map {
                     }
                 }
             }
-        }
-        return bTiles;
+        }*/
+        return bTileParts;
     }
 
     public void setPlayerCoord(GridCoords playerCoord){
@@ -58,35 +73,58 @@ public class Map {
     public V2.Models.Tiles.Tile getPlayerTile(){
         return this.playerTile;
     }
-    public void addInTileList(GridCoords gridCoord, V2.Models.Tiles.Tile tile){
-        //List<Tile> b = tileList.get(gridCoord);
-        java.util.Map<Tile.Index, Tile> b= tileList.get(gridCoord);// = new HashMap<Tile.Index, Tile>(Tile.Index.getMaxValue());
 
-        if(b==null) b = new HashMap<Tile.Index, Tile>(Tile.Index.getMaxValue());
-        //if(b.containsKey(tile.getIndex().getValue()))
-            b.put(tile.getIndex(),tile);
-        //else {
-        //    int i = tile.getIndex().getValue();
-        //    b.add(tile.getIndex().getValue(), tile);
-        //}
-        tileList.put(gridCoord, b);
+    public void addInTileList(GridCoords gridCoord, V2.Models.Tiles.Tile tile){
+        GridCoords absGridCoord = new GridCoords(gridCoord.getX(),gridCoord.getY());
+        for (GridCoords relGridCoord = new GridCoords(0,0); relGridCoord.getX() < tile.getSizeX(); relGridCoord.setX(relGridCoord.getX()+1), absGridCoord.setX(absGridCoord.getX()+1)) {
+            absGridCoord.setY(gridCoord.getY());
+            for (relGridCoord.setY(0); relGridCoord.getY() < tile.getSizeY(); relGridCoord.setY(relGridCoord.getY()+1), absGridCoord.setY(absGridCoord.getY()+1)) {
+                List<Tile.TilePart> b = tileList.get(absGridCoord);// = new HashMap<Tile.Index, Tile>(Tile.Index.getMaxValue());
+
+                if (b == null) b = new ArrayList<Tile.TilePart>();
+                //if(b.containsKey(tile.getIndex().getValue()))
+                b.add(tile.getTilePart(relGridCoord));
+                //else {
+                //    int i = tile.getIndex().getValue();
+                //    b.add(tile.getIndex().getValue(), tile);
+                //}
+                tileList.put(new GridCoords(absGridCoord.getX(),absGridCoord.getY()), b);
+                //List<Tile.TilePart> debug = getFromTileList(new GridCoords(1,1));
+                //if(debug.contains(b))
+                    //System.out.print("Hello World");
+            }
+        }
     }
 
-    public java.util.Map<Tile.Index, Tile> getFromTileList(GridCoords gridCoord){
+    public List<Tile.TilePart> getFromTileList(GridCoords gridCoord){
         if(tileList.containsKey(gridCoord)==false)
-            return new HashMap<Tile.Index, Tile>();
+            return new ArrayList<Tile.TilePart>();
         return tileList.get(gridCoord);
     }
 
     public Boolean deleteFromTileList(GridCoords gridCoord, V2.Models.Tiles.Tile tile){
         Boolean deleted =true;
-        java.util.Map<Tile.Index, Tile> b = tileList.get(gridCoord);
-        if(b.containsKey(tile.getIndex())==false || b.get(tile.getIndex())==null) deleted = false;
-        else {
-            b.remove(tile.getIndex());
-            tileList.put(gridCoord, b);
+        Boolean atLeastOne = false;
+        GridCoords absGridCoord = new GridCoords(gridCoord.getX(),gridCoord.getY());
+        for (GridCoords relGridCoord = new GridCoords(0,0); relGridCoord.getX() < tile.getSizeX() && deleted != false; relGridCoord.setX(relGridCoord.getX()+1), absGridCoord.setX(absGridCoord.getX()+1)) {
+            absGridCoord.setY(gridCoord.getY());
+            for (relGridCoord.setY(0); relGridCoord.getY() < tile.getSizeY() && deleted != false; relGridCoord.setY(relGridCoord.getY()+1), absGridCoord.setY(absGridCoord.getY()+1)) {
+                List<Tile.TilePart> oldList = tileList.get(absGridCoord);
+                List<Tile.TilePart> newList = new ArrayList<Tile.TilePart>();
+
+                if (oldList == null){ deleted = false; continue;}
+                for(Tile.TilePart tilePart: oldList){
+                    if (tilePart.getParentTile()==tile) {
+                        atLeastOne = true;
+                        //oldList.remove(tilePart);
+                    }else{
+                        newList.add(tilePart);
+                    }
+                }
+                tileList.put(new GridCoords(absGridCoord.getX(),absGridCoord.getY()), newList);
+            }
         }
-        return deleted;
+        return deleted && atLeastOne;
     }
 
     public void setRowCnt(int rowCnt){

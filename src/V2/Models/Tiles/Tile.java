@@ -56,10 +56,13 @@ public abstract class Tile{
     public class TilePart{
         private Boolean collidable = true;
         private Index index = Index.GROUND;
-
-        public TilePart(Boolean collidable, Index index){
+        private Tile parentTile = null;
+        private util.GridCoords relCoord;
+        public TilePart(Boolean collidable, Index index, Tile parentTile, util.GridCoords relCoord){
             setCollidable(collidable);
             setIndex(index);
+            this.parentTile = parentTile;
+            this.relCoord = relCoord;
         }
         public Boolean getCollidable() {
             return collidable;
@@ -75,7 +78,14 @@ public abstract class Tile{
             return this.index;
         }
 
+        public Tile getParentTile(){
+            return this.parentTile;
+        }
+        public util.GridCoords getRelCoord(){
+            return this.relCoord;
+        }
     }
+
     public Boolean getCollidableAtPos(GridCoords gridCoords){
         TilePart b;
         if(tileParts.containsKey(gridCoords)==false)//TODO: should never happen. Throw exception
@@ -88,7 +98,7 @@ public abstract class Tile{
     protected void setTilePart(util.GridCoords gridCoords, TilePart tilePart){
         tileParts.put(gridCoords, tilePart);
     }
-    protected TilePart getTilePart(util.GridCoords gridCoords){
+    public TilePart getTilePart(util.GridCoords gridCoords){
         return tileParts.get(gridCoords);
     }
     public void setDescriptionString(String descriptionString) {
