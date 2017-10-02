@@ -105,3 +105,19 @@ public class Map {
 
 
 }
+
+//TODO: In elk tilePart object de imagePart opslaan met zowel index etc.
+//TODO:
+//TODO:    Ipv een tilearry in de mapModel gewoon een tilePartArray waarbij de tileparts en de tiles staan
+//TODO:
+//TODO:
+//TODO:public class struct{
+//TODO:    public TilePart tilepart;
+//TODO:    public Tile tile;
+//TODO:}
+//TODO:
+//TODO:    private java.util.Map<GridCoords, List<struct>> tileList = new HashMap<GridCoords,  List<struct>>();
+//en dan dat het gewoon ge-add wordt. Niet op volgorde van de index
+//Als de player moet verplaatsen dan de oude hit uit tilearray en nieuwe toevoegen
+
+//Taak 2 voor na bovenstaande; MovableTile maken en StaticTile met een aparte file in de model en één in de controller. In de Controller dan ook een add en delete object functie opnemen
