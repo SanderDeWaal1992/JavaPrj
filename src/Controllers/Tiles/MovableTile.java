@@ -42,7 +42,7 @@ public class MovableTile extends Tile{
                 if(this.tileWrapper.getModel().getCollidableAtPos(RelCoord) == true) {
                     bNextCoord.setX(nextCoord.getX()+x);
                     bNextCoord.setY(nextCoord.getY()+y);
-                    for (Models.Tiles.Tile.TilePart tilePart : mapController.getColidableTiles(bNextCoord)) {
+                    for (Models.Tiles.TilePart tilePart : mapController.getColidableTiles(bNextCoord)) {
                         colide = true;
                         //possible to check and execute colide action :TODO add colide actions eg talk, set door open, etc
                         break;

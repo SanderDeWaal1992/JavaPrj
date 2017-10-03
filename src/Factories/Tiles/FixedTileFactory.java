@@ -8,11 +8,13 @@ public class FixedTileFactory extends AbstractFactory {
         return null;
     }
 
-    public Wrappers.Tiles.Tile getFixedTile(String Tile, util.GridCoords coord, Controllers.Map mapController, Models.MapGridInf mapGridInf) {
-        Models.Tiles.FixedTile FixedTileModel;
+    public Wrappers.Tiles.Tile getFixedTile(String tile, util.GridCoords coord, Controllers.Map mapController, Models.MapGridInf mapGridInf) {
+        Models.Tiles.Tile FixedTileModel;
         Wrappers.Tiles.Tile tileWrapper;
 
-        if (Tile.equalsIgnoreCase("Hause")) {
+        FixedTileModel = Models.Tiles.TileFactory.getTile(tile, coord);
+        if(FixedTileModel == null) return null;
+        /*if (Tile.equalsIgnoreCase("Hause")) {
             FixedTileModel = new Models.Tiles.Hause(coord);
         } else if (Tile.equalsIgnoreCase("Pavement")) {
             FixedTileModel = new Models.Tiles.Pavement(coord);
@@ -21,7 +23,7 @@ public class FixedTileFactory extends AbstractFactory {
         } else if (Tile.equalsIgnoreCase("Wall")) {
             FixedTileModel = new Models.Tiles.Wall(coord);
         } else
-            return null;
+            return null;*/
 
         tileWrapper = new Wrappers.Tiles.Tile();
         tileWrapper.setModel(FixedTileModel);

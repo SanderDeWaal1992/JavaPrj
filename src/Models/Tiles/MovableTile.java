@@ -1,6 +1,6 @@
 package Models.Tiles;
 
-public abstract class MovableTile extends Tile {
+public class MovableTile extends Tile {
     public MovableTile(String description, String imgDir, util.GridCoords coord){
         super(imgDir, description);
         setCoord(coord);

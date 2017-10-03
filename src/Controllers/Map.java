@@ -114,7 +114,7 @@ public final class Map {
         return mapView;
     }
 
-    public List<Tile.TilePart> getColidableTiles(GridCoords gridCoords){
+    public List<Models.Tiles.TilePart> getColidableTiles(GridCoords gridCoords){
         return mapModel.getColidableTiles(gridCoords);
     }
 

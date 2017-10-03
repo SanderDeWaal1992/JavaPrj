@@ -1,14 +1,18 @@
 package Factories.Tiles;
 
 public class MovableTileFactory extends AbstractFactory {
-    public Wrappers.Tiles.Tile getMovableTile(String Tile, util.GridCoords coord, Controllers.Map mapController, Models.MapGridInf mapGridInf){
-        Models.Tiles.MovableTile MovableTileModel;
+    public Wrappers.Tiles.Tile getMovableTile(String tile, util.GridCoords coord, Controllers.Map mapController, Models.MapGridInf mapGridInf){
+        Models.Tiles.Tile MovableTileModel;
         Wrappers.Tiles.Tile tileWrapper;
 
+        MovableTileModel = Models.Tiles.TileFactory.getTile(tile,coord);
+        if(MovableTileModel == null) return null;
+
+        /*
         if(Tile.equalsIgnoreCase("Human1")) {
             MovableTileModel = new Models.Tiles.Human1(coord);
         } else
-            return null;
+            return null;*/
 
         tileWrapper = new Wrappers.Tiles.Tile();
         tileWrapper.setModel(MovableTileModel);

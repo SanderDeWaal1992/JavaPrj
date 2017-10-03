@@ -36,39 +36,6 @@ public abstract class Tile{
         public static int getMaxValue(){return maxValue;}
     }
 
-    public class TilePart{
-        private Boolean collidable = true;
-        private Index index = Index.GROUND;
-        private Tile parentTile = null; //TODO: should be of type Wrappers.Tiles.Tile
-        private util.GridCoords relCoord;
-        protected TilePart(Boolean collidable, Index index, Tile parentTile, util.GridCoords relCoord){
-            setCollidable(collidable);
-            setIndex(index);
-            this.parentTile = parentTile;
-            this.relCoord = relCoord;
-        }
-        public Boolean getCollidable() {
-            return collidable;
-        };
-        private void setCollidable(Boolean collidable) {
-            this.collidable=collidable;
-        };
-
-        private void setIndex(Index index){
-            this.index=index;
-        }
-        public Index getIndex(){
-            return this.index;
-        }
-
-        public Tile getParentTile(){
-            return this.parentTile;
-        }
-        public util.GridCoords getRelCoord(){
-            return this.relCoord;
-        }
-    }
-
     public Boolean getCollidableAtPos(GridCoords gridCoords){
         TilePart b;
         if(tileParts.containsKey(gridCoords)==false)//TODO: should never happen. Throw exception
