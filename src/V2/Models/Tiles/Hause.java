@@ -1,8 +1,8 @@
 package V2.Models.Tiles;
 
-public class Hause extends Tile {
-    public Hause() {
-        super("./src/media/hause/", "This is a hause.");
+public class Hause extends FixedTile {
+    public Hause(util.GridCoords coord) {
+        super( "This is a hause.", "./src/media/hause/",coord);
         util.GridCoords b;
         b = new util.GridCoords(0,0); this.setTilePart(b, new TilePart(false, Index.OVERLAY1, this, b));
         b = new util.GridCoords(1,0); this.setTilePart(b, new TilePart(false, Index.OVERLAY1, this, b));

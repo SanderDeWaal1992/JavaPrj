@@ -2,10 +2,10 @@ package V2.Models.Tiles;
 
 //import V2.Models.Tiles.Tile;
 
-public class Wall extends Tile {
+public class Wall extends FixedTile {
 
-    public Wall(){
-        super("./src/media/wall/", "This is a wall.");
+    public Wall(util.GridCoords coord){
+        super( "This is a wall.","./src/media/wall/", coord);
         util.GridCoords b;
          b = new util.GridCoords(0,1); this.setTilePart(new util.GridCoords(0,1), new TilePart(true, Index.GROUNDOVERLAY, this, b));
          b = new util.GridCoords(0,0); this.setTilePart(new util.GridCoords(0,0), new TilePart(false, Index.OVERLAY1, this, b));

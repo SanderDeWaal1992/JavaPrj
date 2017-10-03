@@ -95,7 +95,6 @@ public class Map extends JPanel {
                     for (V2.Models.Tiles.Tile.TilePart tilePart : mapModel.getFromTileList(coords)) {
                         if (tilePart.getIndex() != index) continue;
                         try {
-
                             g.drawImage(
                                     util.utilities.getImage(
                                             tilePart.getParentTile().getImgDir() + tilePart.getParentTile().getImg(),

@@ -23,7 +23,7 @@ public abstract class Tile{
     private String descriptionString = "";
     private int sizeX = 0;
     private int sizeY = 0;
-
+    private util.GridCoords coord = new util.GridCoords(0,0);
     //private int index = 0;
     //private int bWidth=0, bHeight=0;
     //private Boolean collidable = true;
@@ -34,12 +34,7 @@ public abstract class Tile{
         this.descriptionString=descriptionString;
         //this.index = index;
     }
-    public enum Directions {
-        LEFT,
-        RIGHT,
-        UP,
-        DOWN
-    }
+
     public enum Index {
         GROUND(0),
         GROUNDOVERLAY(1),
@@ -58,7 +53,7 @@ public abstract class Tile{
         private Index index = Index.GROUND;
         private Tile parentTile = null;
         private util.GridCoords relCoord;
-        public TilePart(Boolean collidable, Index index, Tile parentTile, util.GridCoords relCoord){
+        protected TilePart(Boolean collidable, Index index, Tile parentTile, util.GridCoords relCoord){
             setCollidable(collidable);
             setIndex(index);
             this.parentTile = parentTile;
@@ -67,11 +62,11 @@ public abstract class Tile{
         public Boolean getCollidable() {
             return collidable;
         };
-        public void setCollidable(Boolean collidable) {
+        private void setCollidable(Boolean collidable) {
             this.collidable=collidable;
         };
 
-        public void setIndex(Index index){
+        private void setIndex(Index index){
             this.index=index;
         }
         public Index getIndex(){
@@ -101,19 +96,19 @@ public abstract class Tile{
     public TilePart getTilePart(util.GridCoords gridCoords){
         return tileParts.get(gridCoords);
     }
-    public void setDescriptionString(String descriptionString) {
+    protected void setDescriptionString(String descriptionString) {
         this.descriptionString = descriptionString;
     }
     public String getDescriptionString() {
         return descriptionString;
     }
-    public void setImg(String img){
+    protected void setImg(String img){
         this.img = img;
     }
     public String getImg(){
         return img;
     }
-    public void setImgDir(String imgDir){
+    protected void setImgDir(String imgDir){
         this.imgDir = imgDir;
     }
     public String getImgDir(){
@@ -121,8 +116,15 @@ public abstract class Tile{
     }
     public int getSizeX(){return sizeX;}
     public int getSizeY(){return sizeY;}
-    public void setSizeX(int sizeX){this.sizeX=sizeX;}
-    public void setSizeY(int sizeY){this.sizeY=sizeY;}
+    protected void setSizeX(int sizeX){this.sizeX=sizeX;}
+    protected void setSizeY(int sizeY){this.sizeY=sizeY;}
+    public final util.GridCoords getCoord(){
+        return coord;
+    }
+    public void setCoord(final util.GridCoords coord){
+        this.coord.setX(coord.getX());
+        this.coord.setY(coord.getY());
+    }
 }
 
 

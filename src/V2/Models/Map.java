@@ -19,7 +19,8 @@ public class Map {
     private java.util.Map<GridCoords, List<Tile.TilePart>> tileList = new HashMap<GridCoords,  List<Tile.TilePart>>();
 
     private GridCoords playerCoord;
-    private V2.Models.Tiles.Tile playerTile;
+    private V2.Models.Tiles.MovableTile playerModelTile;
+    private V2.Controllers.Tiles.MovableTile playerControllerTile;
     private int rowCnt=0;
     private int columnCnt =0;
 
@@ -61,23 +62,29 @@ public class Map {
         return bTileParts;
     }
 
-    public void setPlayerCoord(GridCoords playerCoord){
-        this.playerCoord=playerCoord;
+    //public void setPlayerCoord(GridCoords playerCoord){
+    //    this.playerCoord=playerCoord;
+    //}
+    //public GridCoords getPlayerCoord(){
+    //    return this.playerCoord;
+    //}
+    public void setPlayerModelTile(V2.Models.Tiles.MovableTile playerModelTile){
+        this.playerModelTile=playerModelTile;
     }
-    public GridCoords getPlayerCoord(){
-        return this.playerCoord;
+    public void setPlayerControllerTile(V2.Controllers.Tiles.MovableTile playerControllerTile){
+        this.playerControllerTile=playerControllerTile;
     }
-    public void setPlayerTile(V2.Models.Tiles.Tile playerTile){
-        this.playerTile=playerTile;
+    public V2.Models.Tiles.MovableTile getPlayerModelTile(){
+        return this.playerModelTile;
     }
-    public V2.Models.Tiles.Tile getPlayerTile(){
-        return this.playerTile;
+    public V2.Controllers.Tiles.MovableTile getPlayerControllerTile(){
+        return this.playerControllerTile;
     }
 
-    public void addInTileList(GridCoords gridCoord, V2.Models.Tiles.Tile tile){
-        GridCoords absGridCoord = new GridCoords(gridCoord.getX(),gridCoord.getY());
+    public void addInTileList(V2.Models.Tiles.Tile tile){
+        GridCoords absGridCoord = new GridCoords(tile.getCoord().getX(),tile.getCoord().getY());
         for (GridCoords relGridCoord = new GridCoords(0,0); relGridCoord.getX() < tile.getSizeX(); relGridCoord.setX(relGridCoord.getX()+1), absGridCoord.setX(absGridCoord.getX()+1)) {
-            absGridCoord.setY(gridCoord.getY());
+            absGridCoord.setY(tile.getCoord().getY());
             for (relGridCoord.setY(0); relGridCoord.getY() < tile.getSizeY(); relGridCoord.setY(relGridCoord.getY()+1), absGridCoord.setY(absGridCoord.getY()+1)) {
                 List<Tile.TilePart> b = tileList.get(absGridCoord);// = new HashMap<Tile.Index, Tile>(Tile.Index.getMaxValue());
 
