@@ -1,6 +1,6 @@
-package V2.Models.Tiles;
+package Models.Tiles;
 
-//import V2.Models.Tiles.Tile;
+//import Models.Tiles.Tile;
 
 public class Wall extends FixedTile {
 

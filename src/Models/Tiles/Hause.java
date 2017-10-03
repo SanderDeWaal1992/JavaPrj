@@ -1,4 +1,4 @@
-package V2.Models.Tiles;
+package Models.Tiles;
 
 public class Hause extends FixedTile {
     public Hause(util.GridCoords coord) {

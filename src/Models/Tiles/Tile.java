@@ -1,19 +1,7 @@
-package V2.Models.Tiles;
+package Models.Tiles;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import com.sun.prism.image.Coords;
 import util.GridCoords;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.text.Position;
-import javax.xml.stream.Location;
-import java.awt.*;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +39,7 @@ public abstract class Tile{
     public class TilePart{
         private Boolean collidable = true;
         private Index index = Index.GROUND;
-        private Tile parentTile = null;
+        private Tile parentTile = null; //TODO: should be of type Wrappers.Tiles.Tile
         private util.GridCoords relCoord;
         protected TilePart(Boolean collidable, Index index, Tile parentTile, util.GridCoords relCoord){
             setCollidable(collidable);
@@ -125,6 +113,14 @@ public abstract class Tile{
         this.coord.setX(coord.getX());
         this.coord.setY(coord.getY());
     }
+
+    public enum Directions {
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN
+    }
+    public abstract void setDirection(Directions direction);
 }
 
 

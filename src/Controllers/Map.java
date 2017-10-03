@@ -1,26 +1,27 @@
-package V2.Controllers;
+package Controllers;
 
-import V2.Models.Tiles.MovableTile;
-import V2.Models.Tiles.Tile;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import Models.MapGridInf;
+import Models.Tiles.MovableTile;
+import Models.Tiles.Tile;
 import util.GridCoords;
+import Factories.FactoryProducer;
 
 import java.util.List;
 
 public final class Map {
-    private V2.Views.Map mapView;
-    private V2.Models.Map mapModel;
-    //private V2.Models.Tiles.Human1 player;
+    private Views.Map mapView;
+    private Models.Map mapModel;
+    //private Models.Tiles.Human1 player;
 
-    public Map(V2.Models.Map mapModel) {
+    public Map(Models.Map mapModel) {
         util.GridCoords bCoord = new GridCoords(0, 0);
-        this.mapView = new V2.Views.Map(this, mapModel);
+        this.mapView = new Views.Map(this, mapModel);
         this.mapModel = mapModel;
         mapModel.setRowCnt(50);
         mapModel.setColumnCnt(50);
 
-        mapModel.setPlayerModelTile(new V2.Models.Tiles.Human1(bCoord));
-        mapModel.setPlayerControllerTile(new V2.Controllers.Tiles.MovableTile(mapModel.getPlayerModelTile(), this, mapModel.getRowCnt(), mapModel.getColumnCnt()));
+        mapModel.setPlayerTile(FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human1", bCoord, this, mapModel));
+        //mapModel.setPlayerControllerTile(new Controllers.Tiles.MovableTile(mapModel.getPlayerModelTile(), this, mapModel.getRowCnt(), mapModel.getColumnCnt()));
 
         //fill map with tiles
         //:TODO put this in model and add array storage read/write
@@ -28,14 +29,16 @@ public final class Map {
             for (int y = 0; y < mapModel.getRowCnt(); y++) {
                 bCoord.setX(x);
                 bCoord.setY(y);
-                mapModel.addInTileList(new V2.Models.Tiles.Pavement(bCoord));
+                mapModel.addInTileList(FactoryProducer.getFactory("FIXEDTILE").getFixedTile("Pavement", bCoord, this, mapModel));
+                //mapModel.addInTileList(new Models.Tiles.Pavement(bCoord));
             }
         }
-        mapModel.addInTileList( mapModel.getPlayerModelTile());
+        mapModel.addInTileList( mapModel.getPlayerTile());
 
         bCoord.setX(1);
         bCoord.setY(1);
-        mapModel.addInTileList(new V2.Models.Tiles.Tree(bCoord));
+        mapModel.addInTileList(FactoryProducer.getFactory("FIXEDTILE").getFixedTile("Tree", bCoord, this, mapModel));
+
         mapView.revalidate();
         mapView.repaint();
     }
@@ -71,7 +74,7 @@ public final class Map {
                 if(mapModel.getPlayerTile().getCollidableAtPos(RelPlayerCoord) == true) {
                     bPlayerNextCoord.setX(PlayerNextCoord.getX()+x);
                     bPlayerNextCoord.setY(PlayerNextCoord.getY()+y);
-                    for (V2.Models.Tiles.Tile.TilePart tilePart : mapModel.getColidableTiles(bPlayerNextCoord)) {
+                    for (Models.Tiles.Tile.TilePart tilePart : mapModel.getColidableTiles(bPlayerNextCoord)) {
                         colide = true;
                         //possible to check and execute colide action :TODO add colide actions eg talk, set door open, etc
                         break;
@@ -92,22 +95,22 @@ public final class Map {
     }*/
 
     public void moveRight() {
-        mapModel.getPlayerControllerTile().moveTile(MovableTile.Directions.RIGHT, 1, 0);
+        mapModel.getPlayerTile().getController().moveTile(MovableTile.Directions.RIGHT, 1, 0);
     }
 
     public void moveLeft() {
-        mapModel.getPlayerControllerTile().moveTile(MovableTile.Directions.LEFT, -1, 0);
+        mapModel.getPlayerTile().getController().moveTile(MovableTile.Directions.LEFT, -1, 0);
     }
 
     public void moveUp() {
-        mapModel.getPlayerControllerTile().moveTile(MovableTile.Directions.UP, 0, -1);
+        mapModel.getPlayerTile().getController().moveTile(MovableTile.Directions.UP, 0, -1);
     }
 
     public void moveDown() {
-        mapModel.getPlayerControllerTile().moveTile(MovableTile.Directions.DOWN, 0, 1);
+        mapModel.getPlayerTile().getController().moveTile(MovableTile.Directions.DOWN, 0, 1);
     }
 
-    public V2.Views.Map getView() {
+    public Views.Map getView() {
         return mapView;
     }
 
@@ -115,15 +118,15 @@ public final class Map {
         return mapModel.getColidableTiles(gridCoords);
     }
 
-     public Boolean moveTileInTileList(util.GridCoords nextCoord, V2.Models.Tiles.Tile tile){
+     public Boolean moveTileInTileList(util.GridCoords nextCoord, Wrappers.Tiles.Tile tile){
          Boolean success = true;
 
          //remove old tile
-         success &= mapModel.deleteFromTileList(tile.getCoord(), tile);
+         success &= mapModel.deleteFromTileList(tile.getModel().getCoord(), tile);
 
          if(success == true) {
              //set and add new tile
-             tile.setCoord(nextCoord);
+             tile.getModel().setCoord(nextCoord);
              mapModel.addInTileList(tile);
 
          }
@@ -134,6 +137,7 @@ public final class Map {
          mapView.revalidate();
          mapView.repaint();
      }
+
 }
 
 

@@ -1,4 +1,4 @@
-package V2.Models.Tiles;
+package Models.Tiles;
 
 public class Pavement extends FixedTile {
     public Pavement(util.GridCoords coord){

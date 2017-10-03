@@ -1,4 +1,4 @@
-package V2.Models.Tiles;
+package Models.Tiles;
 
 public abstract class MovableTile extends Tile {
     public MovableTile(String description, String imgDir, util.GridCoords coord){
@@ -23,11 +23,5 @@ public abstract class MovableTile extends Tile {
                 setImg("default.png");
                 break;
         }
-    }
-    public enum Directions {
-        LEFT,
-        RIGHT,
-        UP,
-        DOWN
     }
 }

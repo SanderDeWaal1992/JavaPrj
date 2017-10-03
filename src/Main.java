@@ -6,18 +6,18 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args){
         // Create and initialise map view
-        /*V2.Views.Map mapView = new V2.Views.Map();
+        /*Views.Map mapView = new Views.Map();
         mapView.setMinimumSize(new Dimension(400, 400));
         mapView.setPreferredSize(new Dimension(400, 400));*/
 
         // Create and initialize map model
-        V2.Models.Map mapModel = new V2.Models.Map();
+        Models.Map mapModel = new Models.Map();
 
         // Create and initialize map controller
-        V2.Controllers.Map mapController = new V2.Controllers.Map(mapModel);
+        Controllers.Map mapController = new Controllers.Map(mapModel);
 
         // Initialise map view
-        V2.Views.Map mapView = mapController.getView();
+        Views.Map mapView = mapController.getView();
         mapView.setMinimumSize(new Dimension(400, 400));
         mapView.setPreferredSize(new Dimension(400, 400));
         mapView.setFocusable(true);

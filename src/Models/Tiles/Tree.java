@@ -1,6 +1,4 @@
-package V2.Models.Tiles;
-
-import V2.Models.Tiles.Tile;
+package Models.Tiles;
 
 public class Tree extends FixedTile {
     //public static final Boolean collisable = true;

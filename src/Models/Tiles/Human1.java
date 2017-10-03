@@ -1,4 +1,4 @@
-package V2.Models.Tiles;
+package Models.Tiles;
 
 public class Human1 extends MovableTile{
     public Human1(util.GridCoords coord){

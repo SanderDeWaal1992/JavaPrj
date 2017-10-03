@@ -1,22 +1,17 @@
-package V2.Views;
-
-import V2.Models.Tiles.Tile;
+package Views;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Map extends JPanel {
     private JPanel panel;
-    private V2.Models.Map mapModel;
-    private V2.Controllers.Map mapController;
+    private Models.Map mapModel;
+    private Controllers.Map mapController;
 
-    public Map(V2.Controllers.Map mapController, V2.Models.Map mapModel) {
+    public Map(Controllers.Map mapController, Models.Map mapModel) {
         super();
         this.mapController = mapController;
         this.mapModel = mapModel;
@@ -68,7 +63,7 @@ public class Map extends JPanel {
         this.setLayout(null);
         for (util.GridCoords coords = new util.GridCoords(0,0); coords.getX() < model.getColumnCnt(); coords.setX(coords.getX()+1)) {
             for (coords.setY(0); coords.getY() < model.getRowCnt(); coords.setY(coords.getY()+1)) {
-                for(V2.Models.Tiles.Tile tile: model.getFromTileList(coords)){
+                for(Models.Tiles.Tile tile: model.getFromTileList(coords)){
                     util.utilities.getImage(tile.getImgDir()+tile.getImg(), tile.getSizeX()*tileWidth, tile.getSizeY()*tileHeight)
                 }
             }
@@ -86,13 +81,13 @@ public class Map extends JPanel {
         int tileHeight = height / mapModel.getRowCnt();
         //this.setLayout(new GridLayout(model.getColumnCnt(),model.getRowCnt()));
         this.setLayout(null);
-        //for(V2.Models.Tiles.Tile.Index index: V2.Models.Tiles.Tile.Index.values()) {
+        //for(Models.Tiles.Tile.Index index: Models.Tiles.Tile.Index.values()) {
         for (util.GridCoords coords = new util.GridCoords(0, 0); coords.getX() < mapModel.getColumnCnt(); coords.setX(coords.getX() + 1)) {
             for (coords.setY(0); coords.getY() < mapModel.getRowCnt(); coords.setY(coords.getY() + 1)) {
                 //if(mapModel.getFromTileList(coords).containsKey(index)){
-                //V2.Models.Tiles.Tile tile = mapModel.getFromTileList(coords).get(index);
-                for (V2.Models.Tiles.Tile.Index index : V2.Models.Tiles.Tile.Index.values()) {
-                    for (V2.Models.Tiles.Tile.TilePart tilePart : mapModel.getFromTileList(coords)) {
+                //Models.Tiles.Tile tile = mapModel.getFromTileList(coords).get(index);
+                for (Models.Tiles.Tile.Index index : Models.Tiles.Tile.Index.values()) {
+                    for (Models.Tiles.Tile.TilePart tilePart : mapModel.getFromTileList(coords)) {
                         if (tilePart.getIndex() != index) continue;
                         try {
                             g.drawImage(

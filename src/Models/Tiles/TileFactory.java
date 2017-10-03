@@ -1,7 +1,7 @@
-package V2.Models.Tiles;
+package Models.Tiles;
 
 public class TileFactory {
-    MovableTile getTile(String Tile, util.GridCoords coord){
+    /*MovableTile getTile(String Tile, util.GridCoords coord){
         if(Tile.equalsIgnoreCase("Hause")) {
         } else if(Tile.equalsIgnoreCase("Human1")) {
             return new Human1(coord);
@@ -28,6 +28,6 @@ public class TileFactory {
 
         } else return null;
 
-    }
+    }*/
 
 }
