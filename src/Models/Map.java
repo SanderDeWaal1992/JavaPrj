@@ -1,10 +1,11 @@
 package Models;
 
-import Wrappers.Tiles.MovableTile;
+import Models.Tiles.TilePart;
 import util.GridCoords;
 //import Models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,10 +16,10 @@ public class Map implements MapGridInf{
 
 
     //private java.util.Map<GridCoords, java.util.Map<Tile.Index, Tile>> tileList = new HashMap<GridCoords,  java.util.Map<Tile.Index, Tile>>();
-    private java.util.Map<GridCoords, List<Models.Tiles.TilePart>> tileList = new HashMap<GridCoords,  List<Models.Tiles.TilePart>>();
+    private java.util.Map<GridCoords, ArrayList<TilePart>> tileList = new HashMap<GridCoords,  ArrayList<Models.Tiles.TilePart>>();
 
     private GridCoords playerCoord;
-    private Wrappers.Tiles.Tile playerTile;
+    private Remaining.Tiles.Tile playerTile;
     private int rowCnt=0;
     private int columnCnt =0;
 
@@ -80,28 +81,29 @@ public class Map implements MapGridInf{
     }
 
     */
-    public void setPlayerTile(Wrappers.Tiles.Tile playerTile){
+    public void setPlayerTile(Remaining.Tiles.Tile playerTile){
         this.playerTile=playerTile;
     }
-    public Wrappers.Tiles.Tile getPlayerTile(){
+    public Remaining.Tiles.Tile getPlayerTile(){
         return playerTile;
     }
 
-    public void addInTileList(Wrappers.Tiles.Tile tile){
+    public void addInTileList(Remaining.Tiles.Tile tile){
+        ArrayList<Models.Tiles.TilePart> bTilePartList;
         GridCoords absGridCoord = new GridCoords(tile.getModel().getCoord().getX(),tile.getModel().getCoord().getY());
         for (GridCoords relGridCoord = new GridCoords(0,0); relGridCoord.getX() < tile.getModel().getSizeX(); relGridCoord.setX(relGridCoord.getX()+1), absGridCoord.setX(absGridCoord.getX()+1)) {
             absGridCoord.setY(tile.getModel().getCoord().getY());
             for (relGridCoord.setY(0); relGridCoord.getY() < tile.getModel().getSizeY(); relGridCoord.setY(relGridCoord.getY()+1), absGridCoord.setY(absGridCoord.getY()+1)) {
-                List<Models.Tiles.TilePart> b = tileList.get(absGridCoord);// = new HashMap<Tile.Index, Tile>(Tile.Index.getMaxValue());
+                bTilePartList = tileList.get(absGridCoord);// = new HashMap<Tile.Index, Tile>(Tile.Index.getMaxValue());
 
-                if (b == null) b = new ArrayList<Models.Tiles.TilePart>();
+                if (bTilePartList == null) bTilePartList = new ArrayList<Models.Tiles.TilePart>();
                 //if(b.containsKey(tile.getIndex().getValue()))
-                b.add(tile.getModel().getTilePart(relGridCoord));
+                bTilePartList.add(tile.getModel().getTilePart(relGridCoord));
                 //else {
                 //    int i = tile.getIndex().getValue();
                 //    b.add(tile.getIndex().getValue(), tile);
                 //}
-                tileList.put(new GridCoords(absGridCoord.getX(),absGridCoord.getY()), b);
+                tileList.put(new GridCoords(absGridCoord.getX(),absGridCoord.getY()), bTilePartList);
                 //List<Tile.TilePart> debug = getFromTileList(new GridCoords(1,1));
                 //if(debug.contains(b))
                     //System.out.print("Hello World");
@@ -112,18 +114,18 @@ public class Map implements MapGridInf{
     public List<Models.Tiles.TilePart> getFromTileList(GridCoords gridCoord){
         if(tileList.containsKey(gridCoord)==false)
             return new ArrayList<Models.Tiles.TilePart>();
-        return tileList.get(gridCoord);
+        return (List<Models.Tiles.TilePart>)tileList.get(gridCoord).clone();
     }
 
-    public Boolean deleteFromTileList(GridCoords gridCoord, Wrappers.Tiles.Tile tile){
+    public Boolean deleteFromTileList(GridCoords gridCoord, Remaining.Tiles.Tile tile){
         Boolean deleted =true;
         Boolean atLeastOne = false;
         GridCoords absGridCoord = new GridCoords(gridCoord.getX(),gridCoord.getY());
         for (GridCoords relGridCoord = new GridCoords(0,0); relGridCoord.getX() < tile.getModel().getSizeX() && deleted != false; relGridCoord.setX(relGridCoord.getX()+1), absGridCoord.setX(absGridCoord.getX()+1)) {
             absGridCoord.setY(gridCoord.getY());
             for (relGridCoord.setY(0); relGridCoord.getY() < tile.getModel().getSizeY() && deleted != false; relGridCoord.setY(relGridCoord.getY()+1), absGridCoord.setY(absGridCoord.getY()+1)) {
-                List<Models.Tiles.TilePart> oldList = tileList.get(absGridCoord);
-                List<Models.Tiles.TilePart> newList = new ArrayList<Models.Tiles.TilePart>();
+                ArrayList<Models.Tiles.TilePart> oldList = tileList.get(absGridCoord);
+                ArrayList<Models.Tiles.TilePart> newList = new ArrayList<Models.Tiles.TilePart>();
 
                 if (oldList == null){ deleted = false; continue;}
                 for(Models.Tiles.TilePart tilePart: oldList){

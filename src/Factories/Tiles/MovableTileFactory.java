@@ -1,9 +1,9 @@
 package Factories.Tiles;
 
 public class MovableTileFactory extends AbstractFactory {
-    public Wrappers.Tiles.Tile getMovableTile(String tile, util.GridCoords coord, Controllers.Map mapController, Models.MapGridInf mapGridInf){
+    public Remaining.Tiles.Tile getMovableTile(String tile, util.GridCoords coord, Controllers.Map mapController, Models.MapGridInf mapGridInf){
         Models.Tiles.Tile MovableTileModel;
-        Wrappers.Tiles.Tile tileWrapper;
+        Remaining.Tiles.Tile tileWrapper;
 
         MovableTileModel = Models.Tiles.TileFactory.getTile(tile,coord);
         if(MovableTileModel == null) return null;
@@ -14,13 +14,13 @@ public class MovableTileFactory extends AbstractFactory {
         } else
             return null;*/
 
-        tileWrapper = new Wrappers.Tiles.Tile();
+        tileWrapper = new Remaining.Tiles.Tile();
         tileWrapper.setModel(MovableTileModel);
         tileWrapper.setController(new Controllers.Tiles.MovableTile(tileWrapper, mapController, mapGridInf));
 
         return tileWrapper;
     }
-    public Wrappers.Tiles.Tile getFixedTile(String Tile, util.GridCoords coord, Controllers.Map mapController, Models.MapGridInf mapGridInf){
+    public Remaining.Tiles.Tile getFixedTile(String Tile, util.GridCoords coord, Controllers.Map mapController, Models.MapGridInf mapGridInf){
         return null;
     }
 }

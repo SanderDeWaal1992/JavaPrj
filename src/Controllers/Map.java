@@ -1,26 +1,38 @@
 package Controllers;
 
-import Models.MapGridInf;
 import Models.Tiles.MovableTile;
 import Models.Tiles.Tile;
 import util.GridCoords;
 import Factories.FactoryProducer;
 
+import java.sql.Wrapper;
+import java.util.Date;
 import java.util.List;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public final class Map {
     private Views.Map mapView;
     private Models.Map mapModel;
-    //private Models.Tiles.Human1 player;
+    private final Remaining.TaskHandler taskHandler;
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
+    /*map initialisation and setup*/
     public Map(Models.Map mapModel) {
         util.GridCoords bCoord = new GridCoords(0, 0);
         this.mapView = new Views.Map(this, mapModel);
         this.mapModel = mapModel;
-        mapModel.setRowCnt(50);
-        mapModel.setColumnCnt(50);
+        mapModel.setRowCnt(300);
+        mapModel.setColumnCnt(300);
+
+        taskHandler = new Remaining.TaskHandler();
 
         mapModel.setPlayerTile(FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human1", bCoord, this, mapModel));
+
         //mapModel.setPlayerControllerTile(new Controllers.Tiles.MovableTile(mapModel.getPlayerModelTile(), this, mapModel.getRowCnt(), mapModel.getColumnCnt()));
 
         //fill map with tiles
@@ -33,110 +45,146 @@ public final class Map {
                 //mapModel.addInTileList(new Models.Tiles.Pavement(bCoord));
             }
         }
-        mapModel.addInTileList( mapModel.getPlayerTile());
+        mapModel.addInTileList(mapModel.getPlayerTile());
+
+        bCoord.setX(2);
+        bCoord.setY(2);
+        mapModel.addInTileList(FactoryProducer.getFactory("FIXEDTILE").getFixedTile("Tree", bCoord, this, mapModel));
+
+
+        bCoord.setX(5);
+        bCoord.setY(5);
+        final Remaining.Tiles.Tile b = FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human1", bCoord, this, mapModel);
+        taskHandler.addTask(R -> b.getController().execute("argumentString"));
+        b.getController().addPad(5, 10, Tile.Directions.DOWN);
+        b.getController().addPad(5, 10, Tile.Directions.RIGHT);
+        b.getController().addPad(5, 10, Tile.Directions.UP);
+        b.getController().addPad(5, 10, Tile.Directions.LEFT);
+        mapModel.addInTileList(b);
 
         bCoord.setX(1);
         bCoord.setY(1);
-        mapModel.addInTileList(FactoryProducer.getFactory("FIXEDTILE").getFixedTile("Tree", bCoord, this, mapModel));
+        final Remaining.Tiles.Tile c = FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human1", bCoord, this, mapModel);
+        taskHandler.addTask(R -> c.getController().execute("argumentString"));
+        c.getController().addPad(2, 10, Tile.Directions.DOWN);
+        c.getController().addPad(2, 10, Tile.Directions.RIGHT);
+        c.getController().addPad(2, 10, Tile.Directions.UP);
+        c.getController().addPad(2, 10, Tile.Directions.LEFT);
+        mapModel.addInTileList(c);
 
-        mapView.revalidate();
-        mapView.repaint();
+        setTaskHandlerInterval(100);
+        setViewUpdateHandler(10);
+        updateView();
     }
-    /*
-    private void movePlayer(Tile.Directions direction, int addX, int addY) {
-        mapModel.getPlayerTile().setImg(direction.toString() + ".png");
-        //util.GridCoords PlayerCoord = mapModel.getPlayerCoord();
-        util.GridCoords PlayerNextCoord = new util.GridCoords(mapModel.getPlayerCoord().getX(),mapModel.getPlayerCoord().getY());
-        Boolean colide = false;
 
-        //check image won't get outside the map
-        int bX = mapModel.getPlayerCoord().getX() + addX;
-        if ((bX + mapModel.getPlayerTile().getSizeX() > mapModel.getColumnCnt())) {
-            bX = mapModel.getColumnCnt() - mapModel.getPlayerTile().getSizeX();
-        } else if (bX < 0)
-            bX = 0;
-        int bY = mapModel.getPlayerCoord().getY() + addY;
-        if ((bY + mapModel.getPlayerTile().getSizeY() > mapModel.getRowCnt())) {
-            bY = mapModel.getRowCnt() - mapModel.getPlayerTile().getSizeY();
-        } else if (bY < 0)
-            bY = 0;
-        PlayerNextCoord.setX(bX);
-        PlayerNextCoord.setY(bY);
-
-        //check if any collision would happen when new playercoord would be set
-        util.GridCoords RelPlayerCoord = new util.GridCoords(0, 0);
-        util.GridCoords bPlayerNextCoord = new util.GridCoords(0,0);
-        for (int x = 0; x<mapModel.getPlayerTile().getSizeX() && colide == false; x++) {
-            for (int y = 0; y < mapModel.getPlayerTile().getSizeY() && colide == false; y++) {
-                RelPlayerCoord.setX(x);
-                RelPlayerCoord.setY(y);
-
-                if(mapModel.getPlayerTile().getCollidableAtPos(RelPlayerCoord) == true) {
-                    bPlayerNextCoord.setX(PlayerNextCoord.getX()+x);
-                    bPlayerNextCoord.setY(PlayerNextCoord.getY()+y);
-                    for (Models.Tiles.Tile.TilePart tilePart : mapModel.getColidableTiles(bPlayerNextCoord)) {
-                        colide = true;
-                        //possible to check and execute colide action :TODO add colide actions eg talk, set door open, etc
-                        break;
-                    }
-                }
-            }
+    /*player tile movement*/
+    private void move(Tile.Directions direction) {
+        int addX = 0;
+        int addY = 0;
+        switch (direction) {
+            case LEFT:
+                addX = -1;
+                break;
+            case RIGHT:
+                addX = 1;
+                break;
+            case UP:
+                addY = -1;
+                break;
+            case DOWN:
+            default:
+                addY = 1;
+                break;
         }
-        if (colide == false) {
-            //remove old player tile
-            mapModel.deleteFromTileList(mapModel.getPlayerCoord(),mapModel.getPlayerTile());
-
-            //set and add new player tile
-            mapModel.setPlayerCoord(PlayerNextCoord);
-            mapModel.addInTileList(mapModel.getPlayerCoord(), mapModel.getPlayerTile());
+        if (mapModel.getPlayerTile().getController().moveTile(direction, addX, addY) == true) {
+            updateView();
         }
-        mapView.revalidate();
-        mapView.repaint();
-    }*/
+    }
 
     public void moveRight() {
-        mapModel.getPlayerTile().getController().moveTile(MovableTile.Directions.RIGHT, 1, 0);
+        move(MovableTile.Directions.RIGHT);
     }
 
     public void moveLeft() {
-        mapModel.getPlayerTile().getController().moveTile(MovableTile.Directions.LEFT, -1, 0);
+        move(MovableTile.Directions.LEFT);
     }
 
     public void moveUp() {
-        mapModel.getPlayerTile().getController().moveTile(MovableTile.Directions.UP, 0, -1);
+        move(MovableTile.Directions.UP);
     }
 
     public void moveDown() {
-        mapModel.getPlayerTile().getController().moveTile(MovableTile.Directions.DOWN, 0, 1);
+        move(MovableTile.Directions.DOWN);
     }
 
+
+    /*move tile in map*/
+    public Boolean moveTileInTileList(util.GridCoords nextCoord, Remaining.Tiles.Tile tile) {
+        Boolean success = true;
+
+        //remove old tile
+        success &= mapModel.deleteFromTileList(tile.getModel().getCoord(), tile);
+
+        if (success == true) {
+            //set and add new tile
+            tile.getModel().setCoord(nextCoord);
+            mapModel.addInTileList(tile);
+        }
+
+        return success;
+    }
+
+
+    /*View update */
+    private Boolean viewUpdateReq = false;
+
+    private void updateView() {
+        viewUpdateReq = true;
+    }
+
+    private Boolean setViewUpdateHandlerOnlyOnce = true;
+
+    private void setViewUpdateHandler(final long msInterval) {
+        if (setViewUpdateHandlerOnlyOnce == true) scheduler.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                //if (taskHandler.executeTasks("stringArgument") == true) {
+                    if (viewUpdateReq == true) {
+                        viewUpdateReq=false;
+                        mapView.revalidate();
+                        mapView.repaint();
+                    }
+                //}
+            }
+        }, msInterval, msInterval, MILLISECONDS);
+        setViewUpdateHandlerOnlyOnce = false;
+    }
+
+
+    /*tile task execution*/
+    private Boolean setTaskHandlerIntervalOnlyOnce = true;
+
+    private void setTaskHandlerInterval(final long msInterval) {
+        if (setTaskHandlerIntervalOnlyOnce == true) scheduler.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                if (taskHandler.executeTasks("stringArgument") == true) {
+                    updateView();
+                }
+            }
+        }, msInterval, msInterval, MILLISECONDS);
+        setTaskHandlerIntervalOnlyOnce = false;
+    }
+
+
+    /*remaining methods*/
     public Views.Map getView() {
         return mapView;
     }
 
-    public List<Models.Tiles.TilePart> getColidableTiles(GridCoords gridCoords){
+    public List<Models.Tiles.TilePart> getColidableTiles(GridCoords gridCoords) {
         return mapModel.getColidableTiles(gridCoords);
     }
-
-     public Boolean moveTileInTileList(util.GridCoords nextCoord, Wrappers.Tiles.Tile tile){
-         Boolean success = true;
-
-         //remove old tile
-         success &= mapModel.deleteFromTileList(tile.getModel().getCoord(), tile);
-
-         if(success == true) {
-             //set and add new tile
-             tile.getModel().setCoord(nextCoord);
-             mapModel.addInTileList(tile);
-
-         }
-
-         return success;
-     }
-     public void updateView(){
-         mapView.revalidate();
-         mapView.repaint();
-     }
 
 }
 

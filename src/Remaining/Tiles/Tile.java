@@ -1,4 +1,4 @@
-package Wrappers.Tiles;
+package Remaining.Tiles;
 
 public class Tile <M extends Models.Tiles.Tile,C extends Controllers.Tiles.Tile> {
     private M model;

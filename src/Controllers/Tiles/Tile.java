@@ -11,5 +11,7 @@ public abstract class Tile {
         this.mapGridInf=mapGridInf;
     }
 
-    public abstract void moveTile(Models.Tiles.MovableTile.Directions direction, int addX, int addY);
+    public abstract Boolean moveTile(Models.Tiles.MovableTile.Directions direction, int addX, int addY);
+    public abstract Boolean execute(String argument);
+    public abstract void addPad(int steps, int ticks, Models.Tiles.Tile.Directions direction);
 }

@@ -12,6 +12,7 @@ public abstract class Tile{
     private int sizeX = 0;
     private int sizeY = 0;
     private util.GridCoords coord = new util.GridCoords(0,0);
+    private Directions direction = Directions.DOWN;
     //private int index = 0;
     //private int bWidth=0, bHeight=0;
     //private Boolean collidable = true;
@@ -87,7 +88,10 @@ public abstract class Tile{
         UP,
         DOWN
     }
-    public abstract void setDirection(Directions direction);
+    public void setDirection(Directions direction){
+        this.direction=direction;
+    };
+    public Directions getDirection(){return direction;}
 }
 
 

@@ -3,7 +3,7 @@ package Models.Tiles;
 public class TilePart {
     private Boolean collidable = true;
     private Tile.Index index = Tile.Index.GROUND;
-    private Tile parentTile = null; //TODO: should be of type Wrappers.Tiles.Tile
+    private Tile parentTile = null; //TODO: should be of type Remaining.Tiles.Tile
     private util.GridCoords relCoord;
     public TilePart(Boolean collidable, Tile.Index index, Tile parentTile, util.GridCoords relCoord){
         setCollidable(collidable);

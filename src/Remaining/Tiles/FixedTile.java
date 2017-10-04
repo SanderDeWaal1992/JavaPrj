@@ -1,4 +1,4 @@
-package Wrappers.Tiles;
+package Remaining.Tiles;
 
 public class FixedTile {/*
     private final Models.Tiles.FixedTile model;

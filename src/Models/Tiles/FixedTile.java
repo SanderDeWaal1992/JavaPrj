@@ -6,5 +6,4 @@ public class FixedTile extends Tile{
         setCoord(coord);
     }
 
-    public void setDirection(Directions direction){return;}
 }

@@ -1,4 +1,4 @@
-package Wrappers.Tiles;
+package Remaining.Tiles;
 
 public class MovableTile {/*
     private final Models.Tiles.MovableTile model;

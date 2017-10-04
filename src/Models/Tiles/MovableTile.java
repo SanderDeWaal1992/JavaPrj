@@ -5,7 +5,9 @@ public class MovableTile extends Tile {
         super(imgDir, description);
         setCoord(coord);
     }
+    @Override
     public void setDirection(Directions direction){
+        super.setDirection(direction);
         switch(direction){
             case LEFT:
                 setImg("left.png");
