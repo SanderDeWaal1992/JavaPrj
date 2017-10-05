@@ -7,47 +7,62 @@ public class TileFactory {
     private TileFactory(){}
     public static Models.Tiles.Tile getTile(String Tile, util.GridCoords coord) {
         Models.Tiles.Tile TileModel;
-        util.GridCoords b;
+        util.GridCoords b = new util.GridCoords(0,0);;
 
-        if (Tile.equalsIgnoreCase("Hause")) {
+        if (Tile.equalsIgnoreCase("Hause_1")) {
             //TileModel = new Models.Tiles.Hause(coord);
             TileModel = new FixedTile( "This is a hause.", "./src/media/hause/",coord);
-            b = new util.GridCoords(0,0); TileModel.setTilePart(b, new TilePart(false, OVERLAY1, TileModel, b));
-            b = new util.GridCoords(1,0); TileModel.setTilePart(b, new TilePart(false, OVERLAY1, TileModel, b));
+            //b = new util.GridCoords(0,0); TileModel.setTilePart(b, new TilePart(false, OVERLAY1, TileModel, b));
+            /*b = new util.GridCoords(1,0); TileModel.setTilePart(b, new TilePart(false, OVERLAY1, TileModel, b));
             b = new util.GridCoords(2,0); TileModel.setTilePart(b, new TilePart(false, OVERLAY1, TileModel, b));
             b = new util.GridCoords(0,1); TileModel.setTilePart(b, new TilePart(true, GROUNDOVERLAY, TileModel, b));
-            b = new util.GridCoords(1,2); TileModel.setTilePart(b, new TilePart(true, GROUNDOVERLAY, TileModel, b));
-            b = new util.GridCoords(2,3); TileModel.setTilePart(b, new TilePart(true, GROUNDOVERLAY, TileModel, b));
-            TileModel.setSizeX(3);
-            TileModel.setSizeY(2);
-        } else if (Tile.equalsIgnoreCase("Pavement")) {
+            b = new util.GridCoords(1,1); TileModel.setTilePart(b, new TilePart(true, GROUNDOVERLAY, TileModel, b));
+            b = new util.GridCoords(2,1); TileModel.setTilePart(b, new TilePart(true, GROUNDOVERLAY, TileModel, b));*/
+            setTileParts(TileModel, 11, 3, 0, 6, GROUNDOVERLAY, true);
+            setTileParts(TileModel, 11, 6, 0, 0, OVERLAY1, false);
+
+            //TileModel.setSizeX(8);
+            //TileModel.setSizeY(5);
+        } else if (Tile.equalsIgnoreCase("Pavement_1")) {
             TileModel = new FixedTile( "This is a pavement tile.", "./src/media/pavement/", coord);
-            b = new util.GridCoords(0,0); TileModel.setTilePart(b, new TilePart(false, GROUND, TileModel, b));
-            TileModel.setSizeX(1);
-            TileModel.setSizeY(1);
+            b.setXY(0,0); TileModel.setTilePart(b, new TilePart(false, GROUND, TileModel, b));
+            //TileModel.setSizeX(1);
+            //TileModel.setSizeY(1);
             //TileModel = new Models.Tiles.Pavement(coord);
-        } else if (Tile.equalsIgnoreCase("Tree")) {
+        } else if (Tile.equalsIgnoreCase("Tree_1")) {
             //TileModel = new Models.Tiles.Tree(coord);
             TileModel = new FixedTile( "This is a tree.","./src/media/tree/", coord);
-            b = new util.GridCoords(0,1); TileModel.setTilePart(b, new TilePart(true, GROUNDOVERLAY, TileModel, b));
-            b = new util.GridCoords(0,0); TileModel.setTilePart(b, new TilePart(false, OVERLAY1, TileModel, b));
-            TileModel.setSizeX(1);
-            TileModel.setSizeY(2);
-        } else if (Tile.equalsIgnoreCase("Wall")) {
+            b.setXY(0,1); TileModel.setTilePart(b, new TilePart(true, GROUNDOVERLAY, TileModel, b));
+            b.setXY(0,0); TileModel.setTilePart(b, new TilePart(false, OVERLAY1, TileModel, b));
+            //TileModel.setSizeX(1);
+            //TileModel.setSizeY(2);
+        } else if (Tile.equalsIgnoreCase("Wall_1")) {
             TileModel = new FixedTile( "This is a wall.","./src/media/wall/", coord);
-            b = new util.GridCoords(0,1); TileModel.setTilePart(new util.GridCoords(0,1), new TilePart(true, GROUNDOVERLAY, TileModel, b));
-            b = new util.GridCoords(0,0); TileModel.setTilePart(new util.GridCoords(0,0), new TilePart(false, OVERLAY1, TileModel, b));
-            TileModel.setSizeX(1);
-            TileModel.setSizeY(2);
-        } else if(Tile.equalsIgnoreCase("Human1")) {
+            b.setXY(0,1); TileModel.setTilePart(new util.GridCoords(0,1), new TilePart(true, GROUNDOVERLAY, TileModel, b));
+            b.setXY(0,0); TileModel.setTilePart(new util.GridCoords(0,0), new TilePart(false, OVERLAY1, TileModel, b));
+            //TileModel.setSizeX(1);
+            //TileModel.setSizeY(2);
+        } else if(Tile.equalsIgnoreCase("Human_1")) {
             TileModel = new MovableTile("This is a human.", "./src/media/human1/", coord);
-            b = new util.GridCoords(0,1); TileModel.setTilePart(b, new TilePart(true, PLAYERGROUND, TileModel, b));
-            b = new util.GridCoords(0,0); TileModel.setTilePart(b, new TilePart(false, PLAYERTOP, TileModel, b));
-            TileModel.setSizeX(1);
-            TileModel.setSizeY(2);
+            b.setXY(0,1); TileModel.setTilePart(b, new TilePart(true, PLAYERGROUND, TileModel, b));
+            b.setXY(0,0); TileModel.setTilePart(b, new TilePart(false, PLAYERTOP, TileModel, b));
+            //TileModel.setSizeX(1);
+            //TileModel.setSizeY(2);
         } else
             return null;
 
         return TileModel;
+    }
+
+    private static void setTileParts(Models.Tiles.Tile TileModel, int x, int y, int xOffset, int yOffset, Models.Tiles.Tile.Index index, Boolean collidable){
+        util.GridCoords b = new util.GridCoords(0,0);
+        int bY = y;
+        while(--x >= 0) {
+            y = bY;
+            while (--y >= 0) {
+                b.setXY(x + xOffset, y + yOffset);
+                TileModel.setTilePart(b, new TilePart(collidable, index, TileModel, b));
+            }
+        }
     }
 }

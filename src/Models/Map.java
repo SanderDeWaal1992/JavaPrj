@@ -2,27 +2,20 @@ package Models;
 
 import Models.Tiles.TilePart;
 import util.GridCoords;
-//import Models;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 public class Map implements MapGridInf{
-    //List<Integer> num = new ArrayList<>();
-    //private java.util.Map<GridCoords, List<Tile>> tileList = new HashMap<GridCoords, List<Tile>>();
-
-
-
-    //private java.util.Map<GridCoords, java.util.Map<Tile.Index, Tile>> tileList = new HashMap<GridCoords,  java.util.Map<Tile.Index, Tile>>();
     private java.util.Map<GridCoords, ArrayList<TilePart>> tileList = new HashMap<GridCoords,  ArrayList<Models.Tiles.TilePart>>();
 
     private GridCoords playerCoord;
     private Remaining.Tiles.Tile playerTile;
     private int rowCnt=0;
     private int columnCnt =0;
-
+    private int viewPortRowCnt = 0;
+    private int viewPortColumnCnt = 0;
     public Map(){
 
     }
@@ -33,54 +26,16 @@ public class Map implements MapGridInf{
      * @return Tiles which are colidable at given gridCoords
      */
     public List<Models.Tiles.TilePart> getColidableTiles(GridCoords gridCoords){
-        //GridCoords bAbsCoord = new GridCoords(0,0);
-        //GridCoords bRelCoord = new GridCoords(0,0);
         List<Models.Tiles.TilePart> bTileParts = new ArrayList<Models.Tiles.TilePart>();
 
         for (Models.Tiles.TilePart tilePart:getFromTileList(gridCoords)) {
-            //bRelCoord.setX(bAbsCoord.getX()-gridCoords.getX());
-            //bRelCoord.setY(bAbsCoord.getY()-gridCoords.getY());
             if(tilePart.getCollidable() == true) {
                 bTileParts.add(tilePart);
             }
         }
-
-        /*int cnt = 0;
-        for(bAbsCoord.setX(0); bAbsCoord.getX()<rowCnt;bAbsCoord.setX(bAbsCoord.getX()+1)) {
-            for(bAbsCoord.setY(0); bAbsCoord.getY()<columnCnt;bAbsCoord.setY(bAbsCoord.getY()+1)) {
-
-                for (Models.Tiles.Tile tile:getFromTileList(bAbsCoord)) {
-                    bRelCoord.setX(bAbsCoord.getX()-gridCoords.getX());
-                    bRelCoord.setY(bAbsCoord.getY()-gridCoords.getY());
-                    if(tile.getCollidableAtPos(bRelCoord) == true) {
-                        bTiles.add(cnt++, tile);
-                    }
-                }
-            }
-        }*/
         return bTileParts;
     }
 
-    //public void setPlayerCoord(GridCoords playerCoord){
-    //    this.playerCoord=playerCoord;
-    //}
-    //public GridCoords getPlayerCoord(){
-    //    return this.playerCoord;
-    //}
-    /*public void setPlayerModelTile(Models.Tiles.MovableTile playerModelTile){
-        this.playerModelTile=playerModelTile;
-    }
-    public void setPlayerControllerTile(Controllers.Tiles.MovableTile playerControllerTile){
-        this.playerControllerTile=playerControllerTile;
-    }
-    public Models.Tiles.MovableTile getPlayerModelTile(){
-        return this.playerModelTile;
-    }
-    public Controllers.Tiles.MovableTile getPlayerControllerTile(){
-        return this.playerControllerTile;
-    }
-
-    */
     public void setPlayerTile(Remaining.Tiles.Tile playerTile){
         this.playerTile=playerTile;
     }
@@ -90,6 +45,8 @@ public class Map implements MapGridInf{
 
     public void addInTileList(Remaining.Tiles.Tile tile){
         ArrayList<Models.Tiles.TilePart> bTilePartList;
+        if(tile==null)
+            return;
         GridCoords absGridCoord = new GridCoords(tile.getModel().getCoord().getX(),tile.getModel().getCoord().getY());
         for (GridCoords relGridCoord = new GridCoords(0,0); relGridCoord.getX() < tile.getModel().getSizeX(); relGridCoord.setX(relGridCoord.getX()+1), absGridCoord.setX(absGridCoord.getX()+1)) {
             absGridCoord.setY(tile.getModel().getCoord().getY());
@@ -97,16 +54,8 @@ public class Map implements MapGridInf{
                 bTilePartList = tileList.get(absGridCoord);// = new HashMap<Tile.Index, Tile>(Tile.Index.getMaxValue());
 
                 if (bTilePartList == null) bTilePartList = new ArrayList<Models.Tiles.TilePart>();
-                //if(b.containsKey(tile.getIndex().getValue()))
-                bTilePartList.add(tile.getModel().getTilePart(relGridCoord));
-                //else {
-                //    int i = tile.getIndex().getValue();
-                //    b.add(tile.getIndex().getValue(), tile);
-                //}
+                if(tile.getModel().getTilePart(relGridCoord)!=null) bTilePartList.add(tile.getModel().getTilePart(relGridCoord));
                 tileList.put(new GridCoords(absGridCoord.getX(),absGridCoord.getY()), bTilePartList);
-                //List<Tile.TilePart> debug = getFromTileList(new GridCoords(1,1));
-                //if(debug.contains(b))
-                    //System.out.print("Hello World");
             }
         }
     }
@@ -154,7 +103,18 @@ public class Map implements MapGridInf{
     public int getColumnCnt(){
         return columnCnt;
     }
-
+    public void setViewPortRowCnt(int viewPortRowCnt){
+        this.viewPortRowCnt = viewPortRowCnt;
+    }
+    public int getViewPortRowCnt(){
+        return viewPortRowCnt;
+    }
+    public void setViewPortColumnCnt(int viewPortColumnCnt){
+        this.viewPortColumnCnt=viewPortColumnCnt;
+    }
+    public int getViewPortColumnCnt(){
+        return viewPortColumnCnt;
+    }
 
 
 }

@@ -2,6 +2,7 @@ package Controllers;
 
 import Models.Tiles.MovableTile;
 import Models.Tiles.Tile;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import util.GridCoords;
 import Factories.FactoryProducer;
 
@@ -26,12 +27,16 @@ public final class Map {
         util.GridCoords bCoord = new GridCoords(0, 0);
         this.mapView = new Views.Map(this, mapModel);
         this.mapModel = mapModel;
-        mapModel.setRowCnt(300);
-        mapModel.setColumnCnt(300);
+        mapModel.setRowCnt(30);
+        mapModel.setColumnCnt(30);
+        mapModel.setViewPortRowCnt(20);
+        mapModel.setViewPortColumnCnt(20);
 
         taskHandler = new Remaining.TaskHandler();
 
-        mapModel.setPlayerTile(FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human1", bCoord, this, mapModel));
+        bCoord.setX(6);
+        bCoord.setY(6);
+        mapModel.setPlayerTile(FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human_1", bCoord, this, mapModel));
 
         //mapModel.setPlayerControllerTile(new Controllers.Tiles.MovableTile(mapModel.getPlayerModelTile(), this, mapModel.getRowCnt(), mapModel.getColumnCnt()));
 
@@ -41,7 +46,9 @@ public final class Map {
             for (int y = 0; y < mapModel.getRowCnt(); y++) {
                 bCoord.setX(x);
                 bCoord.setY(y);
-                mapModel.addInTileList(FactoryProducer.getFactory("FIXEDTILE").getFixedTile("Pavement", bCoord, this, mapModel));
+                mapModel.addInTileList(FactoryProducer.getFactory("FIXEDTILE").getFixedTile("Pavement_1", bCoord, this, mapModel));
+                if(((x==0 || x==(mapModel.getColumnCnt() - 1)) && y!=(mapModel.getRowCnt()-1)) || y==0|| y==(mapModel.getRowCnt()-2))
+                    mapModel.addInTileList(FactoryProducer.getFactory("FIXEDTILE").getFixedTile("Wall_1", bCoord, this, mapModel));
                 //mapModel.addInTileList(new Models.Tiles.Pavement(bCoord));
             }
         }
@@ -49,12 +56,20 @@ public final class Map {
 
         bCoord.setX(2);
         bCoord.setY(2);
-        mapModel.addInTileList(FactoryProducer.getFactory("FIXEDTILE").getFixedTile("Tree", bCoord, this, mapModel));
+        mapModel.addInTileList(FactoryProducer.getFactory("FIXEDTILE").getFixedTile("Tree_1", bCoord, this, mapModel));
+
+        bCoord.setX(27);
+        bCoord.setY(27);
+        mapModel.addInTileList(FactoryProducer.getFactory("FIXEDTILE").getFixedTile("Tree_1", bCoord, this, mapModel));
+
+        bCoord.setX(15);
+        bCoord.setY(15);
+        mapModel.addInTileList(FactoryProducer.getFactory("FIXEDTILE").getFixedTile("Hause_1", bCoord, this, mapModel));
 
 
         bCoord.setX(5);
         bCoord.setY(5);
-        final Remaining.Tiles.Tile b = FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human1", bCoord, this, mapModel);
+        final Remaining.Tiles.Tile b = FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human_1", bCoord, this, mapModel);
         taskHandler.addTask(R -> b.getController().execute("argumentString"));
         b.getController().addPad(5, 10, Tile.Directions.DOWN);
         b.getController().addPad(5, 10, Tile.Directions.RIGHT);
@@ -64,7 +79,7 @@ public final class Map {
 
         bCoord.setX(1);
         bCoord.setY(1);
-        final Remaining.Tiles.Tile c = FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human1", bCoord, this, mapModel);
+        final Remaining.Tiles.Tile c = FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human_1", bCoord, this, mapModel);
         taskHandler.addTask(R -> c.getController().execute("argumentString"));
         c.getController().addPad(2, 10, Tile.Directions.DOWN);
         c.getController().addPad(2, 10, Tile.Directions.RIGHT);
@@ -73,14 +88,17 @@ public final class Map {
         mapModel.addInTileList(c);
 
         setTaskHandlerInterval(100);
-        setViewUpdateHandler(10);
+        setViewUpdateHandler(5);
         updateView();
     }
 
     /*player tile movement*/
+    Boolean moveMentInterval = false;
     private void move(Tile.Directions direction) {
         int addX = 0;
         int addY = 0;
+        if(moveMentInterval == true ) return;
+
         switch (direction) {
             case LEFT:
                 addX = -1;
@@ -98,6 +116,7 @@ public final class Map {
         }
         if (mapModel.getPlayerTile().getController().moveTile(direction, addX, addY) == true) {
             updateView();
+            moveMentInterval = true;
         }
     }
 
@@ -149,17 +168,17 @@ public final class Map {
             @Override
             public void run() {
                 //if (taskHandler.executeTasks("stringArgument") == true) {
-                    if (viewUpdateReq == true) {
-                        viewUpdateReq=false;
-                        mapView.revalidate();
-                        mapView.repaint();
-                    }
+                if (viewUpdateReq == true) {
+                    viewUpdateReq=false;
+                    mapView.revalidate();
+                    mapView.repaint();
+                    moveMentInterval = false;
+                }
                 //}
             }
         }, msInterval, msInterval, MILLISECONDS);
         setViewUpdateHandlerOnlyOnce = false;
     }
-
 
     /*tile task execution*/
     private Boolean setTaskHandlerIntervalOnlyOnce = true;

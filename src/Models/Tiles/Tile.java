@@ -47,7 +47,9 @@ public abstract class Tile{
     }
 
     protected void setTilePart(util.GridCoords gridCoords, TilePart tilePart){
-        tileParts.put(gridCoords, tilePart);
+        if((gridCoords.getX()+1) > sizeX) setSizeX(gridCoords.getX()+1);
+        if((gridCoords.getY()+1) > sizeY) setSizeY(gridCoords.getY()+1);
+        tileParts.put(new util.GridCoords(gridCoords.getX(), gridCoords.getY()), tilePart);
     }
     public TilePart getTilePart(util.GridCoords gridCoords){
         return tileParts.get(gridCoords);

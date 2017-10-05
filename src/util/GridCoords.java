@@ -26,6 +26,10 @@ public class GridCoords {
         point.y = y;
         return y;
     }
+    public void setXY(int x, int y){
+        point.x = x;
+        point.y = y;
+    }
 
     @Override
     public int hashCode()
