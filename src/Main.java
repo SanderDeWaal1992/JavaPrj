@@ -1,23 +1,25 @@
 package V2;
 
+import map.controllers.Map;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Main {
     public static void main(String[] args){
         // Create and initialise map view
-        /*Views.Map mapView = new Views.Map();
+        /*map.views.Map mapView = new map.views.Map();
         mapView.setMinimumSize(new Dimension(400, 400));
         mapView.setPreferredSize(new Dimension(400, 400));*/
 
         // Create and initialize map model
-        Models.Map mapModel = new Models.Map();
+        map.models.Map mapModel = new map.models.Map();
 
         // Create and initialize map controller
-        Controllers.Map mapController = new Controllers.Map(mapModel);
+        Map mapController = new Map(mapModel);
 
         // Initialise map view
-        Views.Map mapView = mapController.getView();
+        map.views.Map mapView = mapController.getView();
         mapView.setMinimumSize(new Dimension(400, 400));
         mapView.setPreferredSize(new Dimension(400, 400));
         mapView.setFocusable(true);

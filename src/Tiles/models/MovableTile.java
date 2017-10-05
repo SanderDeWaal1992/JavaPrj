@@ -1,4 +1,4 @@
-package Models.Tiles;
+package Tiles.models;
 
 public class MovableTile extends Tile {
     public MovableTile(String description, String imgDir, util.GridCoords coord){

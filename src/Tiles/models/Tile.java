@@ -1,4 +1,4 @@
-package Models.Tiles;
+package Tiles.models;
 
 import util.GridCoords;
 

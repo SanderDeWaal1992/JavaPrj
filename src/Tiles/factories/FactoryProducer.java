@@ -1,9 +1,9 @@
-package Factories;
+package Tiles.factories;
 
 
-import Factories.Tiles.AbstractFactory;
-import Factories.Tiles.FixedTileFactory;
-import Factories.Tiles.MovableTileFactory;
+import Tiles.factories.AbstractFactory;
+import Tiles.factories.FixedTileFactory;
+import Tiles.factories.MovableTileFactory;
 
 public class FactoryProducer {
     public static AbstractFactory getFactory(String choice){

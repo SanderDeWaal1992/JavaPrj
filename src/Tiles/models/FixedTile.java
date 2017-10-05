@@ -1,4 +1,4 @@
-package Models.Tiles;
+package Tiles.models;
 
 public class FixedTile extends Tile{
     public FixedTile(String description, String imgDir, util.GridCoords coord){

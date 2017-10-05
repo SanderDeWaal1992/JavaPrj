@@ -1,4 +1,4 @@
-package Models;
+package map.views;
 
 public interface MapGridInf {
     public int getRowCnt();

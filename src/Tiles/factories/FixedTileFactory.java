@@ -1,15 +1,21 @@
-package Factories.Tiles;
+package Tiles.factories;
+
+import Tiles.controllers.FixedTile;
+import Tiles.models.Tile;
+import Tiles.models.TileFactory;
+import map.controllers.Map;
+import map.views.MapGridInf;
 
 public class FixedTileFactory extends AbstractFactory {
-    public Remaining.Tiles.Tile getMovableTile(String Tile, util.GridCoords coord, Controllers.Map mapController, Models.MapGridInf mapGridInf) {
+    public Tiles.mcWrapper.Tile getMovableTile(String Tile, util.GridCoords coord, Map mapController, MapGridInf mapGridInf) {
         return null;
     }
 
-    public Remaining.Tiles.Tile getFixedTile(String tile, util.GridCoords coord, Controllers.Map mapController, Models.MapGridInf mapGridInf) {
-        Models.Tiles.Tile FixedTileModel;
-        Remaining.Tiles.Tile tileWrapper;
+    public Tiles.mcWrapper.Tile getFixedTile(String tile, util.GridCoords coord, Map mapController, MapGridInf mapGridInf) {
+        Tile FixedTileModel;
+        Tiles.mcWrapper.Tile tileWrapper;
 
-        FixedTileModel = Models.Tiles.TileFactory.getTile(tile, coord);
+        FixedTileModel = TileFactory.getTile(tile, coord);
         if(FixedTileModel == null) return null;
         /*if (Tile.equalsIgnoreCase("Hause")) {
             FixedTileModel = new Models.Tiles.Hause(coord);
@@ -22,9 +28,9 @@ public class FixedTileFactory extends AbstractFactory {
         } else
             return null;*/
 
-        tileWrapper = new Remaining.Tiles.Tile();
+        tileWrapper = new Tiles.mcWrapper.Tile();
         tileWrapper.setModel(FixedTileModel);
-        tileWrapper.setController(new Controllers.Tiles.FixedTile(tileWrapper, mapController, mapGridInf));
+        tileWrapper.setController(new FixedTile(tileWrapper, mapController, mapGridInf));
 
         return tileWrapper;
     }

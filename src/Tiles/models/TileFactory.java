@@ -1,12 +1,12 @@
-package Models.Tiles;
+package Tiles.models;
 
 
-import static Models.Tiles.Tile.Index.*;
+import static Tiles.models.Tile.Index.*;
 
 public class TileFactory {
     private TileFactory(){}
-    public static Models.Tiles.Tile getTile(String Tile, util.GridCoords coord) {
-        Models.Tiles.Tile TileModel;
+    public static Tile getTile(String Tile, util.GridCoords coord) {
+        Tiles.models.Tile TileModel;
         util.GridCoords b = new util.GridCoords(0,0);;
 
         if (Tile.equalsIgnoreCase("Hause_1")) {
@@ -54,7 +54,7 @@ public class TileFactory {
         return TileModel;
     }
 
-    private static void setTileParts(Models.Tiles.Tile TileModel, int x, int y, int xOffset, int yOffset, Models.Tiles.Tile.Index index, Boolean collidable){
+    private static void setTileParts(Tile TileModel, int x, int y, int xOffset, int yOffset, Tile.Index index, Boolean collidable){
         util.GridCoords b = new util.GridCoords(0,0);
         int bY = y;
         while(--x >= 0) {

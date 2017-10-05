@@ -1,22 +1,23 @@
-package Controllers.Tiles;
+package Tiles.controllers;
 
-//import Models.Tiles.Tile;
+//import Tiles.models.Tile;
 
-import Models.MapGridInf;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import map.views.MapGridInf;
+import Tiles.models.TilePart;
+import map.controllers.Map;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MovableTile extends Tile{
-    private final Remaining.Tiles.Tile tileWrapper;
+    private final Tiles.mcWrapper.Tile tileWrapper;
 
-    public MovableTile(Remaining.Tiles.Tile tileWrapper, Controllers.Map mapController, MapGridInf mapGridInf){
+    public MovableTile(Tiles.mcWrapper.Tile tileWrapper, Map mapController, MapGridInf mapGridInf){
         super( mapController, mapGridInf);
         this.tileWrapper=tileWrapper;
     }
 
-    public Boolean moveTile(Models.Tiles.MovableTile.Directions direction, int addX, int addY) {
+    public Boolean moveTile(Tiles.models.MovableTile.Directions direction, int addX, int addY) {
         Boolean success = false;
         Boolean directionChanged = false;
         if(this.tileWrapper.getModel().getDirection()!=direction) {
@@ -51,7 +52,7 @@ public class MovableTile extends Tile{
                 if(this.tileWrapper.getModel().getCollidableAtPos(RelCoord) == true) {
                     bNextCoord.setX(nextCoord.getX()+x);
                     bNextCoord.setY(nextCoord.getY()+y);
-                    for (Models.Tiles.TilePart tilePart : mapController.getColidableTiles(bNextCoord)) {
+                    for (TilePart tilePart : mapController.getColidableTiles(bNextCoord)) {
                         colide = true;
                         //possible to check and execute colide action :TODO add colide actions eg talk, set door open, etc
                         break;
@@ -72,8 +73,8 @@ public class MovableTile extends Tile{
     public class PathPart{
         private final int steps;
         private final int ticks;
-        private final Models.Tiles.Tile.Directions direction;
-        public PathPart(int steps, int ticks, Models.Tiles.Tile.Directions direction){
+        private final Tiles.models.Tile.Directions direction;
+        public PathPart(int steps, int ticks, Tiles.models.Tile.Directions direction){
             this.steps=steps;
             this.ticks=ticks;
             this.direction=direction;
@@ -84,7 +85,7 @@ public class MovableTile extends Tile{
         public int getTicks(){
             return ticks;
         }
-        public Models.Tiles.Tile.Directions getDirection(){
+        public Tiles.models.Tile.Directions getDirection(){
             return direction;
         }
     }
@@ -92,7 +93,7 @@ public class MovableTile extends Tile{
     private int pathPartIdx =0;
     private int stepsDone =0;
     private List<PathPart> pathPartList = new ArrayList<PathPart>();
-    public void addPad(int steps, int ticks, Models.Tiles.Tile.Directions direction){
+    public void addPad(int steps, int ticks, Tiles.models.Tile.Directions direction){
         pathPartList.add(new PathPart(steps, ticks, direction));
     }
     private Boolean executePad(){
@@ -142,18 +143,18 @@ public class MovableTile extends Tile{
     }
 /*
     public void moveRight() {
-        moveTile(Models.Tiles.Tile.Directions.RIGHT, 1, 0);
+        moveTile(Tiles.models.Tile.Directions.RIGHT, 1, 0);
     }
 
     public void moveLeft() {
-        moveTile(Models.Tiles.Tile.Directions.LEFT, -1, 0);
+        moveTile(Tiles.models.Tile.Directions.LEFT, -1, 0);
     }
 
     public void moveUp() {
-        moveTile(Models.Tiles.Tile.Directions.UP, 0, -1);
+        moveTile(Tiles.models.Tile.Directions.UP, 0, -1);
     }
 
     public void moveDown() {
-        moveTile(Models.Tiles.Tile.Directions.DOWN, 0, 1);
+        moveTile(Tiles.models.Tile.Directions.DOWN, 0, 1);
     }*/
 }

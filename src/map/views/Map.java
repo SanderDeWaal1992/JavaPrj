@@ -1,21 +1,23 @@
-package Views;
+package map.views;
 
+
+import Tiles.models.TilePart;
+import util.ImagePool;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.List;
 
 public class Map extends JPanel {
     private JPanel panel;
-    private Models.Map mapModel;
-    private Controllers.Map mapController;
+    private map.models.Map mapModel;
+    private map.controllers.Map mapController;
     private ImagePool imagePool = new ImagePool();
 
-    public Map(Controllers.Map mapController, Models.Map mapModel) {
+    public Map(map.controllers.Map mapController, map.models.Map mapModel) {
         super();
         this.mapController = mapController;
         this.mapModel = mapModel;
@@ -61,7 +63,7 @@ public class Map extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         //util.utilities test = new util.utilities();
-        List<Models.Tiles.TilePart> bTilePartList;
+        List<TilePart> bTilePartList;
         util.GridCoords absCoordsStart = new util.GridCoords(0, 0);
         util.GridCoords absCoords = new util.GridCoords(0, 0);
         int width = this.getWidth();
@@ -90,7 +92,7 @@ public class Map extends JPanel {
                 if(bTilePartList == null)
                     continue;
                 Collections.sort(bTilePartList, (a, b) -> a.getIndex().compareTo(b.getIndex()));//sort list on index
-                for (Models.Tiles.TilePart tilePart : bTilePartList) {
+                for (TilePart tilePart : bTilePartList) {
                     if(tilePart == null)
                         continue;
                     g.drawImage(

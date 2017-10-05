@@ -1,9 +1,9 @@
-package Models.Tiles;
+package Tiles.models;
 
 public class TilePart {
     private Boolean collidable = true;
     private Tile.Index index = Tile.Index.GROUND;
-    private final Tile parentTile; //TODO: should be of type Remaining.Tiles.Tile
+    private final Tile parentTile; //TODO: should be of type Tiles.mcWrapper.Tile
     private final util.GridCoords relCoord;
     public TilePart(Boolean collidable, Tile.Index index, Tile parentTile, util.GridCoords relCoord){
         setCollidable(collidable);

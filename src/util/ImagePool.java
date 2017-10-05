@@ -1,12 +1,8 @@
-package Views;
-
-import Models.Tiles.Tile;
-import util.GridCoords;
+package util;
 
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
-import java.util.List;
 
 public class ImagePool {
     private java.util.Map<String, BufferedImage> ImageCacheList = new HashMap<String, BufferedImage>();
