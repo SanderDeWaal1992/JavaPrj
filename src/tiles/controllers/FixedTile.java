@@ -1,13 +1,13 @@
-package Tiles.controllers;
+package tiles.controllers;
 
-import map.views.MapGridInf;
-import Tiles.models.MovableTile;
+import map.models.MapGridInf;
+import tiles.models.MovableTile;
 import map.controllers.Map;
 
 public class FixedTile extends Tile{
-    private final Tiles.mcWrapper.Tile tileWrapper;
+    private final tiles.mcWrapper.Tile tileWrapper;
 
-    public FixedTile(Tiles.mcWrapper.Tile tileWrapper, Map mapController, MapGridInf mapGridInf){
+    public FixedTile(tiles.mcWrapper.Tile tileWrapper, Map mapController, MapGridInf mapGridInf){
         super( mapController, mapGridInf);
         this.tileWrapper = tileWrapper;
     }
@@ -18,5 +18,5 @@ public class FixedTile extends Tile{
         //nothing to execute
         return false;
     }
-    public void addPad(int steps, int ticks, Tiles.models.Tile.Directions direction){return;}
+    public void addPad(int steps, int ticks, tiles.models.Tile.Directions direction){return;}
 }

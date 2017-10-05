@@ -1,4 +1,4 @@
-package util;
+package remaining;
 
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
@@ -15,10 +15,10 @@ public class ImagePool {
 
         if (ImageCacheList.containsKey(imageLoc) == false) {
             try {
-                image = util.utilities.getImage(imageLoc, sizeX, sizeY);
+                image = remaining.utilities.getImage(imageLoc, sizeX, sizeY);
             } catch (FileNotFoundException e) {
                 try {
-                    image = util.utilities.getImage("./src/media/errorTile.png", sizeX, sizeY);
+                    image = remaining.utilities.getImage("./src/media/errorTile.png", sizeX, sizeY);
                 } catch (FileNotFoundException e1) {
                     e1.printStackTrace();
                 }

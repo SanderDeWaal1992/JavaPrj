@@ -1,6 +1,6 @@
-package Tiles.models;
+package tiles.models;
 
-import util.GridCoords;
+import remaining.GridCoords;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,12 +11,12 @@ public abstract class Tile{
     private String descriptionString = "";
     private int sizeX = 0;
     private int sizeY = 0;
-    private util.GridCoords coord = new util.GridCoords(0,0);
+    private remaining.GridCoords coord = new remaining.GridCoords(0,0);
     private Directions direction = Directions.DOWN;
     //private int index = 0;
     //private int bWidth=0, bHeight=0;
     //private Boolean collidable = true;
-    private Map<util.GridCoords, TilePart> tileParts = new HashMap<util.GridCoords, TilePart>();
+    private Map<remaining.GridCoords, TilePart> tileParts = new HashMap<remaining.GridCoords, TilePart>();
 
     public Tile (String imgDir, String descriptionString){
         this.imgDir = imgDir;
@@ -46,12 +46,12 @@ public abstract class Tile{
         else return b.getCollidable();
     }
 
-    protected void setTilePart(util.GridCoords gridCoords, TilePart tilePart){
+    protected void setTilePart(remaining.GridCoords gridCoords, TilePart tilePart){
         if((gridCoords.getX()+1) > sizeX) setSizeX(gridCoords.getX()+1);
         if((gridCoords.getY()+1) > sizeY) setSizeY(gridCoords.getY()+1);
-        tileParts.put(new util.GridCoords(gridCoords.getX(), gridCoords.getY()), tilePart);
+        tileParts.put(new remaining.GridCoords(gridCoords.getX(), gridCoords.getY()), tilePart);
     }
-    public TilePart getTilePart(util.GridCoords gridCoords){
+    public TilePart getTilePart(remaining.GridCoords gridCoords){
         return tileParts.get(gridCoords);
     }
     protected void setDescriptionString(String descriptionString) {
@@ -76,10 +76,10 @@ public abstract class Tile{
     public int getSizeY(){return sizeY;}
     protected void setSizeX(int sizeX){this.sizeX=sizeX;}
     protected void setSizeY(int sizeY){this.sizeY=sizeY;}
-    public final util.GridCoords getCoord(){
+    public final remaining.GridCoords getCoord(){
         return coord;
     }
-    public void setCoord(final util.GridCoords coord){
+    public void setCoord(final remaining.GridCoords coord){
         this.coord.setX(coord.getX());
         this.coord.setY(coord.getY());
     }

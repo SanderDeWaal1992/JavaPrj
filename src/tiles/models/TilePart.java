@@ -1,15 +1,15 @@
-package Tiles.models;
+package tiles.models;
 
 public class TilePart {
     private Boolean collidable = true;
     private Tile.Index index = Tile.Index.GROUND;
-    private final Tile parentTile; //TODO: should be of type Tiles.mcWrapper.Tile
-    private final util.GridCoords relCoord;
-    public TilePart(Boolean collidable, Tile.Index index, Tile parentTile, util.GridCoords relCoord){
+    private final Tile parentTile; //TODO: should be of type tiles.mcWrapper.Tile
+    private final remaining.GridCoords relCoord;
+    public TilePart(Boolean collidable, Tile.Index index, Tile parentTile, remaining.GridCoords relCoord){
         setCollidable(collidable);
         setIndex(index);
         this.parentTile = parentTile;
-        this.relCoord = new util.GridCoords(relCoord.getX(), relCoord.getY());
+        this.relCoord = new remaining.GridCoords(relCoord.getX(), relCoord.getY());
     }
     public Boolean getCollidable() {
         return collidable;
@@ -28,7 +28,7 @@ public class TilePart {
     public Tile getParentTile(){
         return this.parentTile;
     }
-    public final util.GridCoords getRelCoord(){
+    public final remaining.GridCoords getRelCoord(){
         return this.relCoord;
     }
 }

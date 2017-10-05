@@ -1,5 +1,3 @@
-package V2;
-
 import map.controllers.Map;
 
 import javax.swing.*;
@@ -7,11 +5,8 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args){
-        // Create and initialise map view
-        /*map.views.Map mapView = new map.views.Map();
-        mapView.setMinimumSize(new Dimension(400, 400));
-        mapView.setPreferredSize(new Dimension(400, 400));*/
-
+        scenes.SceneControllerInterface sceneController = new scenes.Controller();
+/*
         // Create and initialize map model
         map.models.Map mapModel = new map.models.Map();
 
@@ -33,6 +28,6 @@ public class Main {
         frame.setVisible(true);
         frame.setLocation(1930,10);
         frame.setContentPane(mapView);
-        mapView.requestFocusInWindow();
+        mapView.requestFocusInWindow();*/
     }
 }

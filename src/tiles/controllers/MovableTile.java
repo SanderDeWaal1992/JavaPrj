@@ -1,30 +1,30 @@
-package Tiles.controllers;
+package tiles.controllers;
 
-//import Tiles.models.Tile;
+//import tiles.models.Tile;
 
-import map.views.MapGridInf;
-import Tiles.models.TilePart;
+import map.models.MapGridInf;
+import tiles.models.TilePart;
 import map.controllers.Map;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MovableTile extends Tile{
-    private final Tiles.mcWrapper.Tile tileWrapper;
+    private final tiles.mcWrapper.Tile tileWrapper;
 
-    public MovableTile(Tiles.mcWrapper.Tile tileWrapper, Map mapController, MapGridInf mapGridInf){
+    public MovableTile(tiles.mcWrapper.Tile tileWrapper, Map mapController, MapGridInf mapGridInf){
         super( mapController, mapGridInf);
         this.tileWrapper=tileWrapper;
     }
 
-    public Boolean moveTile(Tiles.models.MovableTile.Directions direction, int addX, int addY) {
+    public Boolean moveTile(tiles.models.MovableTile.Directions direction, int addX, int addY) {
         Boolean success = false;
         Boolean directionChanged = false;
         if(this.tileWrapper.getModel().getDirection()!=direction) {
             directionChanged = true;
             this.tileWrapper.getModel().setDirection(direction);
         }
-        util.GridCoords nextCoord = new util.GridCoords(tileWrapper.getModel().getCoord().getX(),tileWrapper.getModel().getCoord().getY());
+        remaining.GridCoords nextCoord = new remaining.GridCoords(tileWrapper.getModel().getCoord().getX(),tileWrapper.getModel().getCoord().getY());
         Boolean colide = false;
 
         //check image won't get outside the map
@@ -42,8 +42,8 @@ public class MovableTile extends Tile{
         nextCoord.setY(bY);
 
         //check if any collision would happen when new coord would be set
-        util.GridCoords RelCoord = new util.GridCoords(0, 0);
-        util.GridCoords bNextCoord = new util.GridCoords(0,0);
+        remaining.GridCoords RelCoord = new remaining.GridCoords(0, 0);
+        remaining.GridCoords bNextCoord = new remaining.GridCoords(0,0);
         for (int x = 0; x < this.tileWrapper.getModel().getSizeX() && colide == false; x++) {
             for (int y = 0; y < this.tileWrapper.getModel().getSizeY() && colide == false; y++) {
                 RelCoord.setX(x);
@@ -73,8 +73,8 @@ public class MovableTile extends Tile{
     public class PathPart{
         private final int steps;
         private final int ticks;
-        private final Tiles.models.Tile.Directions direction;
-        public PathPart(int steps, int ticks, Tiles.models.Tile.Directions direction){
+        private final tiles.models.Tile.Directions direction;
+        public PathPart(int steps, int ticks, tiles.models.Tile.Directions direction){
             this.steps=steps;
             this.ticks=ticks;
             this.direction=direction;
@@ -85,7 +85,7 @@ public class MovableTile extends Tile{
         public int getTicks(){
             return ticks;
         }
-        public Tiles.models.Tile.Directions getDirection(){
+        public tiles.models.Tile.Directions getDirection(){
             return direction;
         }
     }
@@ -93,12 +93,12 @@ public class MovableTile extends Tile{
     private int pathPartIdx =0;
     private int stepsDone =0;
     private List<PathPart> pathPartList = new ArrayList<PathPart>();
-    public void addPad(int steps, int ticks, Tiles.models.Tile.Directions direction){
+    public void addPad(int steps, int ticks, tiles.models.Tile.Directions direction){
         pathPartList.add(new PathPart(steps, ticks, direction));
     }
     private Boolean executePad(){
         Boolean modelChanged = false;
-        util.GridCoords prevCoord = new util.GridCoords(this.tileWrapper.getModel().getCoord().getX(),this.tileWrapper.getModel().getCoord().getY());
+        remaining.GridCoords prevCoord = new remaining.GridCoords(this.tileWrapper.getModel().getCoord().getX(),this.tileWrapper.getModel().getCoord().getY());
         int addX=0;
         int addY=0;
         if(pathPartList.size() == 0)
@@ -143,18 +143,18 @@ public class MovableTile extends Tile{
     }
 /*
     public void moveRight() {
-        moveTile(Tiles.models.Tile.Directions.RIGHT, 1, 0);
+        moveTile(tiles.models.Tile.Directions.RIGHT, 1, 0);
     }
 
     public void moveLeft() {
-        moveTile(Tiles.models.Tile.Directions.LEFT, -1, 0);
+        moveTile(tiles.models.Tile.Directions.LEFT, -1, 0);
     }
 
     public void moveUp() {
-        moveTile(Tiles.models.Tile.Directions.UP, 0, -1);
+        moveTile(tiles.models.Tile.Directions.UP, 0, -1);
     }
 
     public void moveDown() {
-        moveTile(Tiles.models.Tile.Directions.DOWN, 0, 1);
+        moveTile(tiles.models.Tile.Directions.DOWN, 0, 1);
     }*/
 }

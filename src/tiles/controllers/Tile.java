@@ -1,7 +1,7 @@
-package Tiles.controllers;
+package tiles.controllers;
 
-import map.views.MapGridInf;
-import Tiles.models.MovableTile;
+import map.models.MapGridInf;
+import tiles.models.MovableTile;
 import map.controllers.Map;
 
 public abstract class Tile {
@@ -15,5 +15,5 @@ public abstract class Tile {
 
     public abstract Boolean moveTile(MovableTile.Directions direction, int addX, int addY);
     public abstract Boolean execute(String argument);
-    public abstract void addPad(int steps, int ticks, Tiles.models.Tile.Directions direction);
+    public abstract void addPad(int steps, int ticks, tiles.models.Tile.Directions direction);
 }

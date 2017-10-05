@@ -1,6 +1,6 @@
-package Tiles.mcWrapper;
+package tiles.mcWrapper;
 
-public class Tile <M extends Tiles.models.Tile,C extends Tiles.controllers.Tile> {
+public class Tile <M extends tiles.models.Tile,C extends tiles.controllers.Tile> {
     private M model;
     private C controller;
     private Boolean setModelPossible = true;

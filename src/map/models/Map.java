@@ -1,9 +1,8 @@
 package map.models;
 
-import map.views.MapGridInf;
-import Tiles.mcWrapper.Tile;
-import Tiles.models.TilePart;
-import util.GridCoords;
+import tiles.mcWrapper.Tile;
+import tiles.models.TilePart;
+import remaining.GridCoords;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +24,7 @@ public class Map implements MapGridInf {
     /**
      * To get tiles which are colidable at given gridCoords
      * @param gridCoords
-     * @return Tiles which are colidable at given gridCoords
+     * @return tiles which are colidable at given gridCoords
      */
     public List<TilePart> getColidableTiles(GridCoords gridCoords){
         List<TilePart> bTileParts = new ArrayList<TilePart>();
@@ -131,7 +130,7 @@ public class Map implements MapGridInf {
 //TODO:    public Tile tile;
 //TODO:}
 //TODO:
-//TODO:    private java.util.Map<GridCoords, List<struct>> tileList = new HashMap<GridCoords,  List<struct>>();
+//TODO:    private java.remaining.Map<GridCoords, List<struct>> tileList = new HashMap<GridCoords,  List<struct>>();
 //en dan dat het gewoon ge-add wordt. Niet op volgorde van de index
 //Als de player moet verplaatsen dan de oude hit uit tilearray en nieuwe toevoegen
 

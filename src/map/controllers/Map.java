@@ -1,11 +1,12 @@
 package map.controllers;
 
-import Tiles.models.MovableTile;
-import Tiles.models.Tile;
-import Tiles.models.TilePart;
-import util.GridCoords;
-import Tiles.factories.FactoryProducer;
-import util.TaskHandler;
+import scenes.SceneInterface;
+import tiles.models.MovableTile;
+import tiles.models.Tile;
+import tiles.models.TilePart;
+import remaining.GridCoords;
+import tiles.factories.FactoryProducer;
+import remaining.TaskHandler;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -13,17 +14,17 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-public final class Map {
+public final class Map implements SceneInterface {
     private map.views.Map mapView;
     private map.models.Map mapModel;
     private final TaskHandler taskHandler;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     /*map initialisation and setup*/
-    public Map(map.models.Map mapModel) {
-        util.GridCoords bCoord = new GridCoords(0, 0);
+    public Map() {
+        remaining.GridCoords bCoord = new GridCoords(0, 0);
+        this.mapModel = new map.models.Map();
         this.mapView = new map.views.Map(this, mapModel);
-        this.mapModel = mapModel;
         mapModel.setRowCnt(30);
         mapModel.setColumnCnt(30);
         mapModel.setViewPortRowCnt(20);
@@ -35,7 +36,7 @@ public final class Map {
         bCoord.setY(6);
         mapModel.setPlayerTile(FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human_1", bCoord, this, mapModel));
 
-        //mapModel.setPlayerControllerTile(new Tiles.controllers.MovableTile(mapModel.getPlayerModelTile(), this, mapModel.getRowCnt(), mapModel.getColumnCnt()));
+        //mapModel.setPlayerControllerTile(new tiles.controllers.MovableTile(mapModel.getPlayerModelTile(), this, mapModel.getRowCnt(), mapModel.getColumnCnt()));
 
         //fill map with tiles
         //:TODO put this in model and add array storage read/write
@@ -46,7 +47,7 @@ public final class Map {
                 mapModel.addInTileList(FactoryProducer.getFactory("FIXEDTILE").getFixedTile("Pavement_1", bCoord, this, mapModel));
                 if(((x==0 || x==(mapModel.getColumnCnt() - 1)) && y!=(mapModel.getRowCnt()-1)) || y==0|| y==(mapModel.getRowCnt()-2))
                     mapModel.addInTileList(FactoryProducer.getFactory("FIXEDTILE").getFixedTile("Wall_1", bCoord, this, mapModel));
-                //mapModel.addInTileList(new Models.Tiles.Pavement(bCoord));
+                //mapModel.addInTileList(new Models.tiles.Pavement(bCoord));
             }
         }
         mapModel.addInTileList(mapModel.getPlayerTile());
@@ -66,7 +67,7 @@ public final class Map {
 
         bCoord.setX(5);
         bCoord.setY(5);
-        final Tiles.mcWrapper.Tile b = FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human_1", bCoord, this, mapModel);
+        final tiles.mcWrapper.Tile b = FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human_1", bCoord, this, mapModel);
         taskHandler.addTask(R -> b.getController().execute("argumentString"));
         b.getController().addPad(5, 10, Tile.Directions.DOWN);
         b.getController().addPad(5, 10, Tile.Directions.RIGHT);
@@ -76,7 +77,7 @@ public final class Map {
 
         bCoord.setX(1);
         bCoord.setY(1);
-        final Tiles.mcWrapper.Tile c = FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human_1", bCoord, this, mapModel);
+        final tiles.mcWrapper.Tile c = FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human_1", bCoord, this, mapModel);
         taskHandler.addTask(R -> c.getController().execute("argumentString"));
         c.getController().addPad(2, 10, Tile.Directions.DOWN);
         c.getController().addPad(2, 10, Tile.Directions.RIGHT);
@@ -135,7 +136,7 @@ public final class Map {
 
 
     /*move tile in map*/
-    public Boolean moveTileInTileList(util.GridCoords nextCoord, Tiles.mcWrapper.Tile tile) {
+    public Boolean moveTileInTileList(remaining.GridCoords nextCoord, tiles.mcWrapper.Tile tile) {
         Boolean success = true;
 
         //remove old tile

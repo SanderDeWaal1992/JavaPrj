@@ -1,4 +1,4 @@
-package util;
+package remaining;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -18,7 +18,7 @@ public class CustomMouseListener implements MouseListener {
             JComponent jc = (JComponent) e.getSource();
             TransferHandler th = jc.getTransferHandler();
             th.exportAsDrag(jc, e, TransferHandler.COPY);
-            //Tiles.Tile b=((Tiles.Container)jc).getContent();
+            //tiles.Tile b=((tiles.Container)jc).getContent();
         }
     }
 

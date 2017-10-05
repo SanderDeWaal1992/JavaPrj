@@ -1,8 +1,8 @@
 package map.views;
 
 
-import Tiles.models.TilePart;
-import util.ImagePool;
+import tiles.models.TilePart;
+import remaining.ImagePool;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Map extends JPanel {
-    private JPanel panel;
+    //private JPanel panel;
     private map.models.Map mapModel;
     private map.controllers.Map mapController;
     private ImagePool imagePool = new ImagePool();
@@ -62,10 +62,10 @@ public class Map extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        //util.utilities test = new util.utilities();
+        //remaining.utilities test = new remaining.utilities();
         List<TilePart> bTilePartList;
-        util.GridCoords absCoordsStart = new util.GridCoords(0, 0);
-        util.GridCoords absCoords = new util.GridCoords(0, 0);
+        remaining.GridCoords absCoordsStart = new remaining.GridCoords(0, 0);
+        remaining.GridCoords absCoords = new remaining.GridCoords(0, 0);
         int width = this.getWidth();
         int height = this.getHeight();
         int tileWidth = width / mapModel.getViewPortColumnCnt();
@@ -83,7 +83,7 @@ public class Map extends JPanel {
         if(absCoordsStart.getY()<0 ) absCoordsStart.setY(0);
         if((absCoordsStart.getY()+mapModel.getViewPortRowCnt())>=mapModel.getRowCnt()) absCoordsStart.setY(mapModel.getRowCnt()-mapModel.getViewPortRowCnt());
 
-        for (util.GridCoords relCoords = new util.GridCoords(0, 0); relCoords.getX() < mapModel.getColumnCnt(); relCoords.setX(relCoords.getX() + 1)) {
+        for (remaining.GridCoords relCoords = new remaining.GridCoords(0, 0); relCoords.getX() < mapModel.getColumnCnt(); relCoords.setX(relCoords.getX() + 1)) {
             for (relCoords.setY(0); relCoords.getY() < mapModel.getRowCnt(); relCoords.setY(relCoords.getY() + 1)) {
 
                 absCoords.setX(absCoordsStart.getX() + relCoords.getX());
