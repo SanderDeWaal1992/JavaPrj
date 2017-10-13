@@ -1,7 +1,7 @@
 package scenes;
 
 public class Model {
-    private SceneInterface sceneController;
+    private SceneInterface sceneController = null;
     private SceneControllerInterface sceneHandlerController;
     public Model(SceneControllerInterface sceneHandlerController){
         this.sceneHandlerController = sceneHandlerController;

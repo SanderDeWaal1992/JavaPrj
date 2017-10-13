@@ -8,15 +8,16 @@ import remaining.GridCoords;
 import tiles.factories.FactoryProducer;
 import remaining.TaskHandler;
 
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-public final class Map implements SceneInterface {
+public class Map implements SceneInterface {
     private map.views.Map mapView;
-    private map.models.Map mapModel;
+    protected map.models.Map mapModel;
     private final TaskHandler taskHandler;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -62,13 +63,13 @@ public final class Map implements SceneInterface {
 
         bCoord.setX(15);
         bCoord.setY(15);
-        mapModel.addInTileList(FactoryProducer.getFactory("FIXEDTILE").getFixedTile("Hause_1", bCoord, this, mapModel));
+        mapModel.addInTileList(FactoryProducer.getFactory("FIXEDTILE").getFixedTile("House_1", bCoord, this, mapModel));
 
 
         bCoord.setX(5);
         bCoord.setY(5);
         final tiles.mcWrapper.Tile b = FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human_1", bCoord, this, mapModel);
-        taskHandler.addTask(R -> b.getController().execute("argumentString"));
+        //taskHandler.addTask(R -> b.getController().execute("argumentString"));
         b.getController().addPad(5, 10, Tile.Directions.DOWN);
         b.getController().addPad(5, 10, Tile.Directions.RIGHT);
         b.getController().addPad(5, 10, Tile.Directions.UP);
@@ -78,7 +79,7 @@ public final class Map implements SceneInterface {
         bCoord.setX(1);
         bCoord.setY(1);
         final tiles.mcWrapper.Tile c = FactoryProducer.getFactory("MOVABLETILE").getMovableTile("Human_1", bCoord, this, mapModel);
-        taskHandler.addTask(R -> c.getController().execute("argumentString"));
+        //taskHandler.addTask(R -> c.getController().execute("argumentString"));
         c.getController().addPad(2, 10, Tile.Directions.DOWN);
         c.getController().addPad(2, 10, Tile.Directions.RIGHT);
         c.getController().addPad(2, 10, Tile.Directions.UP);
@@ -113,11 +114,38 @@ public final class Map implements SceneInterface {
                 break;
         }
         if (mapModel.getPlayerTile().getController().moveTile(direction, addX, addY) == true) {
+            updateViewportInf();
             updateView();
             moveMentInterval = true;
         }
     }
 
+    public Boolean handleKey(KeyEvent e){
+        Boolean handled = true;
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
+                moveLeft();
+                break;
+            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
+                moveRight();
+                break;
+            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
+                moveUp();
+                break;
+            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
+                moveDown();
+                break;
+            default:
+                handled = false;
+                break;
+        }
+
+        return handled;
+    }
     public void moveRight() {
         move(MovableTile.Directions.RIGHT);
     }
@@ -155,7 +183,7 @@ public final class Map implements SceneInterface {
     /*View update */
     private Boolean viewUpdateReq = false;
 
-    private void updateView() {
+    protected void updateView() {
         viewUpdateReq = true;
     }
 
@@ -176,6 +204,22 @@ public final class Map implements SceneInterface {
             }
         }, msInterval, msInterval, MILLISECONDS);
         setViewUpdateHandlerOnlyOnce = false;
+    }
+
+    private void updateViewportInf(){
+        remaining.GridCoords viewportCoordsStart = new remaining.GridCoords(0, 0);
+
+        //set absolute coordinates of map
+        viewportCoordsStart.setX(mapModel.getPlayerTile().getModel().getCoord().getX() - (mapModel.getViewPortColumnCnt() / 2));
+        viewportCoordsStart.setY(mapModel.getPlayerTile().getModel().getCoord().getY() - (mapModel.getViewPortRowCnt() / 2));
+
+        //check absolute coordinates don't cross over map
+        if(viewportCoordsStart.getX()<0 ) viewportCoordsStart.setX(0);
+        if((viewportCoordsStart.getX()+mapModel.getViewPortColumnCnt())>=mapModel.getColumnCnt()) viewportCoordsStart.setX(mapModel.getColumnCnt()-mapModel.getViewPortColumnCnt());
+        if(viewportCoordsStart.getY()<0 ) viewportCoordsStart.setY(0);
+        if((viewportCoordsStart.getY()+mapModel.getViewPortRowCnt())>=mapModel.getRowCnt()) viewportCoordsStart.setY(mapModel.getRowCnt()-mapModel.getViewPortRowCnt());
+
+        mapModel.setViewportCoordsStart(viewportCoordsStart);
     }
 
     /*tile task execution*/

@@ -2,9 +2,9 @@ package tiles.factories;
 
 import tiles.controllers.FixedTile;
 import tiles.models.Tile;
-import tiles.models.TileFactory;
 import map.controllers.Map;
 import map.models.MapGridInf;
+import tiles.models.TileFactory;
 
 public class FixedTileFactory extends AbstractFactory {
     public tiles.mcWrapper.Tile getMovableTile(String Tile, remaining.GridCoords coord, Map mapController, MapGridInf mapGridInf) {

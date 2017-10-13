@@ -6,6 +6,9 @@ public class GridCoords {
     private Point point = new Point();
     //public int y;
 
+    public GridCoords() {
+        this(0,0);
+    }
     public GridCoords(int x, int y) {
         super();
         this.point.x = x;

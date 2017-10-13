@@ -11,7 +11,8 @@ import java.util.List;
 public class Map implements MapGridInf {
     private java.util.Map<GridCoords, ArrayList<TilePart>> tileList = new HashMap<GridCoords,  ArrayList<TilePart>>();
 
-    private GridCoords playerCoord;
+    //private final GridCoords playerCoord = new GridCoords(0,0);
+    private final GridCoords viewportCoordsStart = new GridCoords(0,0);
     private Tile playerTile;
     private int rowCnt=0;
     private int columnCnt =0;
@@ -116,7 +117,13 @@ public class Map implements MapGridInf {
     public int getViewPortColumnCnt(){
         return viewPortColumnCnt;
     }
-
+    public void setViewportCoordsStart(remaining.GridCoords coords){
+        this.viewportCoordsStart.setX(coords.getX());
+        this.viewportCoordsStart.setY(coords.getY());
+    }
+    public remaining.GridCoords getViewportCoordsStart(){
+        return this.viewportCoordsStart;
+    }
 
 }
 

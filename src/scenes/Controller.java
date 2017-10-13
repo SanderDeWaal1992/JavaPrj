@@ -20,7 +20,10 @@ public class Controller implements SceneControllerInterface {
         SceneInterface sceneController;
         if(scene.equalsIgnoreCase("MAPSCENE")) {
             // Create and initialize map
-            sceneController = new map.controllers.Map();
+            sceneController = new scenes.map.MapScene();
+        } else if(scene.equalsIgnoreCase("EDITMAPSCENE")) {
+            // Create and initialize map
+            sceneController = new scenes.editMap.EditMapScene();
         } else
             return;
         model.setSceneController(sceneController);

@@ -1,17 +1,25 @@
 package tiles.models;
 
 
+import tiles.models.FixedTile;
+import tiles.models.MovableTile;
+import tiles.models.Tile;
+import tiles.models.TilePart;
+
 import static tiles.models.Tile.Index.*;
 
 public class TileFactory {
     private TileFactory(){}
+    public static Tile getTile(String Tile) {
+        return getTile(Tile, new remaining.GridCoords(0,0));
+    }
     public static Tile getTile(String Tile, remaining.GridCoords coord) {
         tiles.models.Tile TileModel;
         remaining.GridCoords b = new remaining.GridCoords(0,0);;
 
-        if (Tile.equalsIgnoreCase("Hause_1")) {
+        if (Tile.equalsIgnoreCase("House_1")) {
             //TileModel = new Models.tiles.Hause(coord);
-            TileModel = new FixedTile( "This is a hause.", "./src/media/hause/",coord);
+            TileModel = new FixedTile( "This is a house.", "./src/media/house/",coord);
             //b = new remaining.GridCoords(0,0); TileModel.setTilePart(b, new TilePart(false, OVERLAY1, TileModel, b));
             /*b = new remaining.GridCoords(1,0); TileModel.setTilePart(b, new TilePart(false, OVERLAY1, TileModel, b));
             b = new remaining.GridCoords(2,0); TileModel.setTilePart(b, new TilePart(false, OVERLAY1, TileModel, b));
@@ -40,6 +48,11 @@ public class TileFactory {
             TileModel = new FixedTile( "This is a wall.","./src/media/wall/", coord);
             b.setXY(0,1); TileModel.setTilePart(new remaining.GridCoords(0,1), new TilePart(true, GROUNDOVERLAY, TileModel, b));
             b.setXY(0,0); TileModel.setTilePart(new remaining.GridCoords(0,0), new TilePart(false, OVERLAY1, TileModel, b));
+            //TileModel.setSizeX(1);
+            //TileModel.setSizeY(2);
+        } else if (Tile.equalsIgnoreCase("Water_1")) {
+            TileModel = new FixedTile( "This is water.","./src/media/water/", coord);
+            b.setXY(0,0); TileModel.setTilePart(new remaining.GridCoords(0,0), new TilePart(true, GROUNDOVERLAY, TileModel, b));
             //TileModel.setSizeX(1);
             //TileModel.setSizeY(2);
         } else if(Tile.equalsIgnoreCase("Human_1")) {
