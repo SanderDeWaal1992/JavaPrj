@@ -12,13 +12,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import remaining.Combine2Objects;
+
 
 public class EditMap extends JPanel {
     int xCount, yCount;
-
+    public class combine<T1, T2>{
+        private T1 object1;
+        private T2 object2;
+        public combine( T1 object1, T2 object2){
+            this.object1 = object1;
+            this.object2 = object2;
+        }
+        public T1 getObject1(){
+            return object1;
+        }
+        public T2 getObject2(){
+            return object2;
+        }
+    }
     //private java.util.Map<GridCoords, tiles.mcWrapper.Tile> tileList = new HashMap<GridCoords,  tiles.mcWrapper.Tile>();
-    private Map<remaining.GridCoords, Combine2Objects<JLabel, tiles.mcWrapper.Tile>> tileList = new HashMap<remaining.GridCoords, Combine2Objects<JLabel,  tiles.mcWrapper.Tile>>();
+    private Map<remaining.GridCoords, combine<JLabel, tiles.mcWrapper.Tile>> tileList = new HashMap<remaining.GridCoords, combine<JLabel,  tiles.mcWrapper.Tile>>();
 
     //map.models.Map mapModel = new map.models.Map();
     private JPanel panel = new JPanel();
@@ -40,7 +53,7 @@ public class EditMap extends JPanel {
         int sizeY = getTileYSize();
         panel.setBackground(Color.red);
 
-        for (Combine2Objects<JLabel, tiles.mcWrapper.Tile> entry : tileList.values()) {
+        for (combine<JLabel, tiles.mcWrapper.Tile> entry : tileList.values()) {
             //JLabel key = entry.getKey();
             //tiles.mcWrapper.Tile value = entry.getValue();
             entry.getObject1().setIcon(new ImageIcon(getImageOfTile(entry.getObject2().getModel(), sizeX, sizeY)));
@@ -120,7 +133,7 @@ public class EditMap extends JPanel {
                 //if (!tileList.containsValue(bCoord)) {
                     JLabel b = new JLabel();
                     //tileList.put(new remaining.GridCoords(bCoord.getX(), bCoord.getY()), tile);
-                    tileList.put(bCoord, new Combine2Objects(b, tile));
+                    tileList.put(bCoord, new combine(b, tile));
                     panel.add(b,c);
 
          //           return;
